@@ -16,7 +16,11 @@ const ListFood:FC<ListFoodProps> = ({ name, price, quantity }) => {
             <div className={styles.foodDetails}>
                 <p className={styles.food}>{name}</p>
                 <p className={styles.price}>{formatToRupiah(price)}</p>
-
+                <a href="" className={styles.removeAction}>remove</a>
+            </div>
+                
+            <div>
+                {/* Button for adjust or decrease the amount of food order */}
                 <div className={styles.buttonContainer}>
                     <button className={styles.buttonControl}>
                         <FontAwesomeIcon 
@@ -32,9 +36,8 @@ const ListFood:FC<ListFoodProps> = ({ name, price, quantity }) => {
                         />
                     </button>
                 </div>
+                <p className={styles.subTotal}>{formatToRupiah(quantity * price)}</p>
             </div>
-                
-            <p className={styles.subTotal}>{formatToRupiah(quantity * price)}</p>
         </li>
     )
 }

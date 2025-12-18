@@ -41,3 +41,12 @@
 .subTitle {
     text-transform: capitalize;
 }
+
+.totalAmountContainer {
+    width: 100%;
+    text-align: right;
+}
+
+.totalAmount {
+    font-size: small;
+}

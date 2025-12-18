@@ -29,3 +29,9 @@
 .subTotal {
     font-size: small;
 }
+
+.removeAction {
+    font-size: small;
+    color: #000000;
+    font-weight: 500;
+}
