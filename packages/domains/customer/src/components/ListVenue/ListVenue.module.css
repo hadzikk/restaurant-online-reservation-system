@@ -1,0 +1,14 @@
+.root {
+    width: 100%;
+    list-style: none;
+}
+
+.venueName {
+    text-transform: uppercase;
+}
+
+.removeAction {
+    font-size: small;
+    color: #000000;
+    font-weight: 500;
+}

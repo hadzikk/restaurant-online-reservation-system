@@ -1,0 +1,31 @@
+.root {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: small;
+    font-weight: 500;
+}
+
+.buttonControl {
+    border: none;
+    outline: none;
+    padding: 2px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: small;
+    border-radius: 4px;
+}
+
+.quantity {
+    font-size: small;
+    margin: 0 5px;
+}
+
+.subTotal {
+    font-size: small;
+}

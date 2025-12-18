@@ -1,0 +1,13 @@
+.root {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #0A0A0A;
+}
+
+.name {
+    color: #FFFFFF;
+    font-size: small;
+}
