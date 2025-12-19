@@ -1,4 +1,7 @@
 .root {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     padding: 10px 20px;
     display: flex;
@@ -6,6 +9,7 @@
     align-items: center;
     background-color: #FFFFFF;
     box-shadow: 1px 1px 5px #EEEEEE;
+    z-index: 1;
 }
 
 .circle {

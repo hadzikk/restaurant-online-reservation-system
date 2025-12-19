@@ -19,6 +19,7 @@ const Card:FC<MenuItem> = ({ name, price, ratings, image }) => {
                 <img 
                     src={image} 
                     alt="" 
+                    title='Click the image to preview'
                     className={styles.picture} />
             </figure>
 

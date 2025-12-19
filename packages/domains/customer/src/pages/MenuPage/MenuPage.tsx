@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../../libs/supabase'
 import Navbar from '../../components/Navbar/Navbar'
+import Leftbar from '../../components/LeftBar/LeftBar'
 import Rightbar from '../../components/Rightbar/Rightbar'
 import Card from '../../components/Card/Card'
 import styles from './MenuPage.module.css'
@@ -93,7 +94,8 @@ const MenuPage = () => {
                     <p>There's no menu yet.</p>
                 )}
             </div>
-            <Rightbar/>
+            <Leftbar /> 
+            <Rightbar />
         </main>
     )
 }

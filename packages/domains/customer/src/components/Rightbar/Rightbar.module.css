@@ -15,6 +15,7 @@
 }
 
 .rightbarContent {
+    position: relative;
     width: 30vw;
     height: 100vh;
     padding: 10px 20px;
@@ -36,6 +37,7 @@
 .checkoutContainer {
     width: 100%;
     height: fit-content;
+    padding: 0 0 90px 0;
 }
 
 .subTitle {
@@ -49,4 +51,44 @@
 
 .totalAmount {
     font-size: small;
+}
+
+.buttonTransactionContainer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 30vw;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #FFFFFF;
+    /* border-top: 1px solid #EEEEEE;
+    box-shadow: 1px 1px 5px #EEEEEE; */
+}
+
+.buttonPay {
+    padding: 10px 20px;
+    display: block;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+    margin: 0 0 5px 0;
+}
+
+.buttonPay:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.buttonClose {
+    padding: 10px 20px;
+    display: block;
+    border: none;
+    outline: none;
+    background-color: #FFFFFF;
+}
+
+.buttonClose:hover {
+    cursor: pointer;
 }
