@@ -1,0 +1,43 @@
+.root {
+    width: 200px;
+    height: 300px;
+    padding: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    border-radius: 8px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonImage {
+    width: 100%;
+    height: 70%;
+    background-color: #e5e7eb;
+}
+
+.skeletonContent {
+    padding: 1rem;
+}
+
+.skeletonLineOne {
+    padding: 5px;
+    width: 75%;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.skeletonLineTwo {
+    width: 50%;
+    padding: 5px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
