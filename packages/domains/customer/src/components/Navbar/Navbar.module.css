@@ -2,44 +2,63 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    padding: 10px 20px;
+    width: 3.5vw;
+    height: 100%;
+    padding: 60px 0 20px 0;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 5px #EEEEEE;
-    z-index: 1;
+    background-color: #F7F7F7;
 }
 
-.circle {
-    width: 10px;
-    height: 10px;
-    background-color: #000000;
+.userProfile {
+    width: 40px;
+    height: 40px;
+}
+
+.pictureContainer {
+    width: 100%;
+    height: 100%;
+}
+
+.picture {
+    width: 100%;
+    height: 100%;
     border-radius: 50px;
-    animation: pulse 1.5s ease-in-out infinite;
+    object-fit: cover;
 }
 
-.list {
-    display: inline-block;
+.leftBarContent {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.leftBarList {
     list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.buttonIconContainer {
+    border: 0;
+    outline: none;
+    background-color: transparent;
 }
 
 .icon {
-    font-size: 1.2rem;
+    font-size: small;
+    padding: 5px;
+    color: #808080;
+    background-color: #E9E9E9;
+    border-radius: 8px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.icon:hover {
+    color: #0A0A0A;
+    background-color: #FFFFFF;
+    cursor: pointer;
 }

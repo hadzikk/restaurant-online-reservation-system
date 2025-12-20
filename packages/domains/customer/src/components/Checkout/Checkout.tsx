@@ -1,50 +1,12 @@
 import React, { useEffect, useRef, type FC } from 'react'
 import { formatToRupiah } from '../../../../shared/utils/textUtils'
-import ListVenue from '../ListVenue/ListVenue'
-import ListFood from '../ListFood/ListFood'
-import styles from './Rightbar.module.css'
+import { ListVenue, ListFood } from '../../components'
+import styles from './Checkout.module.css'
 
-interface RightbarProps {
-    isOpen?: boolean
-    onClose?: () => void
-}
-
-const Rightbar:FC<RightbarProps> = ({ isOpen, onClose }) => {
-
-    const rightbarRef = useRef<HTMLDivElement>(null)
-    
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (rightbarRef.current && !rightbarRef.current.contains(event.target as Node)) {
-                onClose?.()
-            }
-        }
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside)
-        }
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [isOpen, onClose])
-    
-    useEffect(() => {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                onClose?.()
-            }
-        }
-        if (isOpen) {
-            document.addEventListener('keydown', handleEscape)
-        }
-        return () => {
-            document.removeEventListener('keydown', handleEscape)
-        }
-    }, [isOpen, onClose])
-    
-    if (!isOpen) return null
+const Checkout = () => {
 
     return (
-        <aside className={styles.root} ref={rightbarRef}>
+        <aside className={styles.root}>
             <div className={styles.overlay}></div>
 
             <div className={styles.rightbarContent}>
@@ -93,7 +55,6 @@ const Rightbar:FC<RightbarProps> = ({ isOpen, onClose }) => {
                 <div className={styles.buttonTransactionContainer}>
                     <button 
                         className={styles.buttonClose}
-                        onClick={onClose}
                     >
                     close
                     </button>
@@ -104,4 +65,4 @@ const Rightbar:FC<RightbarProps> = ({ isOpen, onClose }) => {
     )
 }
 
-export default Rightbar
+export default Checkout

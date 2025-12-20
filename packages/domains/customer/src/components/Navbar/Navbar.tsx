@@ -1,23 +1,50 @@
-import React from 'react'
+import React, { type FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBuromobelexperte } from '@fortawesome/free-brands-svg-icons'
+import { faBurger, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import styles from './Navbar.module.css'
 
 const Navbar = () => {
     return (
-        <nav className={styles.root}>
-            <div className={styles.circle}></div>
-
-            <div>
-                <>
-                    Lorem ipsum dolor sit amet adispiscing elit.
-                </>
+        <aside className={styles.root}>
+            <ul className={styles.leftBarContent}>
+                <li className={styles.leftBarList}>
+                    <button className={styles.buttonIconContainer}>
+                        <FontAwesomeIcon
+                            icon={faCartShopping}
+                            className={styles.icon}
+                        />
+                    </button>
+                </li>
+                <li className={styles.leftBarList}>
+                    <a href="">
+                        <FontAwesomeIcon
+                            icon={faBuromobelexperte}
+                            className={styles.icon}
+                        />
+                    </a>
+                </li>
+                <li className={styles.leftBarList}>
+                    <a href="">
+                        <FontAwesomeIcon
+                            icon={faBurger}
+                            className={styles.icon}
+                        />
+                    </a>
+                </li>
+            </ul>
+            
+            <div className={styles.userProfile}>
+                <figure className={styles.pictureContainer}>
+                    <img 
+                        src="https://cdn.cosmos.so/e2124298-c03a-42fd-912b-ab01ac2e9885?format=jpeg" 
+                        alt="" 
+                        className={styles.picture} 
+                    />
+                </figure>
             </div>
 
-            <FontAwesomeIcon
-                icon={faXmark}
-            />
-        </nav>
+        </aside>
     )
 }
 

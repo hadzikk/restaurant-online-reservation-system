@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../../libs/supabase'
-import Navbar from '../../components/Navbar/Navbar'
-import Leftbar from '../../components/LeftBar/LeftBar'
-import Rightbar from '../../components/Rightbar/Rightbar'
-import Card from '../../components/Card/Card'
+import { CardSkeleton } from '../../../../shared/components'
+import { Billboard, Card, Navbar, Checkout  } from '../../components'
 import styles from './MenuPage.module.css'
 
 interface MenuImage {
@@ -53,20 +51,10 @@ const MenuPage = () => {
         fetchMenuItems()
     }, [])
 
-    const CardSkeleton = () => (
-        <div className={styles.skeletonCard}>
-            <div className={styles.skeletonImage}></div>
-            <div className={styles.skeletonContent}>
-                <div className={styles.skeletonTitle}></div>
-                <div className={styles.skeletonSubtitle}></div>
-            </div>
-        </div>
-    )
-
     if (loading) {
         return (
             <main className={styles.root}>
-                <Navbar />
+                <Billboard />
                 <div className={styles.menuContainer}>
                     {[...Array(6)].map((_, i) => (
                         <CardSkeleton key={i} />
@@ -78,7 +66,7 @@ const MenuPage = () => {
 
     return (
         <main className={styles.root}>
-            <Navbar/>
+            <Billboard/>
             <div className={styles.menuContainer}>
                 {menuItems.length > 0 ? (
                     menuItems.map((item) => (
@@ -87,15 +75,15 @@ const MenuPage = () => {
                             name={item.name}
                             price={item.price}
                             ratings={0}
-                            image={item.menu_images?.[0]?.image_url} // Ambil gambar pertama dari array
+                            image={item.menu_images?.[0]?.image_url}
                         />
                     ))
                 ) : (
                     <p>There's no menu yet.</p>
                 )}
             </div>
-            <Leftbar /> 
-            <Rightbar />
+            <Navbar /> 
+            <Checkout />
         </main>
     )
 }
