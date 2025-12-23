@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import CheckoutContextProvider from './contexts/CheckoutContext/CheckoutContext'
 import MenuPage from './pages/MenuPage/MenuPage'
 
 const App = () => {
   return (
-    <MenuPage/>
+    <CheckoutContextProvider>
+      <MenuPage/>
+    </CheckoutContextProvider>
   )
 }
 

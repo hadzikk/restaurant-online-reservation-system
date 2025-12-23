@@ -56,7 +56,7 @@ const MenuPage = () => {
             <main className={styles.root}>
                 <Billboard />
                 <div className={styles.menuContainer}>
-                    {[...Array(6)].map((_, i) => (
+                    {[...Array(8)].map((_, i) => (
                         <CardSkeleton key={i} />
                     ))}
                 </div>

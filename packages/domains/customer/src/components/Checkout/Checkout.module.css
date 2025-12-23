@@ -6,23 +6,36 @@
     height: 100%;
     display: flex;
     z-index: 10;
+    background-color: rgba(243, 243, 243, 0.5);
+}
+
+.hidden {
+    display: none !important;
 }
 
 .overlay {
     width: 70vw;
     height: 100%;
-    background-color: rgba(243, 243, 243, 0.5);
 }
 
-.rightbarContent {
-    position: relative;
+.slideIn {
+    transform: translateX(0);
+}
+
+.slideOut {
+    transform: translateX(100%);
+}
+
+.checkoutContent {
+    /* position: relative; */
     width: 30vw;
     height: 100vh;
-    padding: 10px 20px;
+    padding: 0 20px;
     background-color: #FFFFFF;
     border-left: 1px solid #EEEEEE;
     box-shadow: 1px 1px 5px #EEEEEE;
     overflow-y: auto;
+    transition: transform 0.5s ease-in-out;
 }
 
 
@@ -34,10 +47,9 @@
     border-bottom: 1px solid #EEEEEE;
 }
 
-.checkoutContainer {
+.checkoutListContainer {
     width: 100%;
     height: fit-content;
-    padding: 0 0 90px 0;
 }
 
 .subTitle {
@@ -53,15 +65,15 @@
     font-size: small;
 }
 
-.buttonTransactionContainer {
-    position: fixed;
+.buttonTransaction {
+    position: sticky;
     bottom: 0;
-    right: 0;
-    width: 30vw;
-    padding: 10px 20px;
+    width: 100%;
+    padding: 10px 0;
     display: flex;
     justify-content: flex-end;
     background-color: #FFFFFF;
+    z-index: 1;
     /* border-top: 1px solid #EEEEEE;
     box-shadow: 1px 1px 5px #EEEEEE; */
 }

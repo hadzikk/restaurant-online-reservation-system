@@ -1,32 +1,25 @@
-import { createContext, useContext, useState, type FC, type ReactNode } from 'react'
+import React, { createContext, useState, type ReactNode } from 'react'
 
 type CheckoutContextType = {
-  isCheckoutOpen: boolean
-  openCheckout: () => void
-  closeCheckout: () => void
-  toggleCheckout: () => void
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+}
+
+type CheckoutProviderProps = {
+  children: ReactNode
 }
 
 const CheckoutContext = createContext<CheckoutContextType | undefined>(undefined)
 
-export const CheckoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
-
-  const openCheckout = () => setIsCheckoutOpen(true)
-  const closeCheckout = () => setIsCheckoutOpen(false)
-  const toggleCheckout = () => setIsCheckoutOpen(prev => !prev)
+const CheckoutContextProvider = ({ children } : CheckoutProviderProps) => {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <CheckoutContext.Provider value={{ isCheckoutOpen, openCheckout, closeCheckout, toggleCheckout }}>
+    <CheckoutContext.Provider value={{ isOpen, setIsOpen }}>
       {children}
     </CheckoutContext.Provider>
   )
 }
 
-export const useCheckout = (): CheckoutContextType => {
-  const context = useContext(CheckoutContext)
-  if (!context) {
-    throw new Error('useCheckout must be used within a CheckoutProvider')
-  }
-  return context
-}
+export const OpenCheckout = CheckoutContext
+export default CheckoutContextProvider

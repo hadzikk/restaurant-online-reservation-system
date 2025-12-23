@@ -1,24 +1,47 @@
-import React, { useEffect, useRef, type FC } from 'react'
+import React, { useContext, useEffect, useRef, useState, type FC } from 'react'
 import { formatToRupiah } from '../../../../shared/utils/textUtils'
 import { ListVenue, ListFood } from '../../components'
 import styles from './Checkout.module.css'
+import { OpenCheckout } from '../../contexts'
 
 const Checkout = () => {
+    const {isOpen, setIsOpen} = useContext(OpenCheckout)
+    const [isContentVisible, setIsContentVisible] = useState(false)
+    useEffect(() => {
+        if (isOpen) {
+            const timer = setTimeout(() => {
+                setIsContentVisible(true)
+            }, 10)
+            return () => clearTimeout(timer)
+        } else {
+            setIsContentVisible(false)
+        }
+    }, [isOpen])
+    const handleClose = () => {
+        setIsContentVisible(false)
 
+        setTimeout(() => {
+            setIsOpen(false)
+        }, 300)
+    }
+    
     return (
-        <aside className={styles.root}>
-            <div className={styles.overlay}></div>
+        <aside className={isOpen? styles.root : styles.hidden}>
+            <div 
+                onClick={handleClose}
+                className={styles.overlay}>    
+            </div>
 
-            <div className={styles.rightbarContent}>
+            <div className={`${styles.checkoutContent} ${isContentVisible ? styles.slideIn : styles.slideOut}`}>
                 <p className={styles.title}>checkout</p>
-                <ul className={styles.checkoutContainer}>
+                <ul className={styles.checkoutListContainer}>
                     <p className={styles.title}>venues</p>
                     <ListVenue name={'A01'}/>
                     <ListVenue name={'A02'}/>
                     <ListVenue name={'A03'}/>
                 </ul>
 
-                <ul className={styles.checkoutContainer}>
+                <ul className={styles.checkoutListContainer}>
                     <p className={styles.title}>Items</p>
                     <ListFood
                         name={'Beef Steak'}
@@ -52,8 +75,9 @@ const Checkout = () => {
                     </div>
                 </ul>
 
-                <div className={styles.buttonTransactionContainer}>
+                <div className={styles.buttonTransaction}>
                     <button 
+                        onClick={() => setIsOpen(false)}
                         className={styles.buttonClose}
                     >
                     close

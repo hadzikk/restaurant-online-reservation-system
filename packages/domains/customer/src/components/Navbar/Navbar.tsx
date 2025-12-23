@@ -1,18 +1,26 @@
-import React, { type FC } from 'react'
+import React, { useContext, type FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuromobelexperte } from '@fortawesome/free-brands-svg-icons'
 import { faBurger, faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { OpenCheckout } from '../../contexts'
 import styles from './Navbar.module.css'
 
 const Navbar = () => {
+    const {isOpen, setIsOpen} = useContext(OpenCheckout)
+
+    {console.log(isOpen)}
+
     return (
         <aside className={styles.root}>
             <ul className={styles.leftBarContent}>
                 <li className={styles.leftBarList}>
-                    <button className={styles.buttonIconContainer}>
+                    <button 
+                        className={styles.buttonIconContainer}
+                    >
                         <FontAwesomeIcon
                             icon={faCartShopping}
-                            className={styles.icon}
+                            className={`${styles.icon} ${isOpen ? styles.active : ''}`}
+                            onClick={() => setIsOpen(!isOpen)}
                         />
                     </button>
                 </li>
