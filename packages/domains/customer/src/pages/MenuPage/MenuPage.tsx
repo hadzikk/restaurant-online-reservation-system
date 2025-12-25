@@ -19,15 +19,15 @@ interface MenuItem {
 }
 
 const MenuPage = () => {
-    const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+    const [menus, setMenus] = useState<MenuItem[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchMenuItems = async () => {
+        const fetchMenus = async () => {
             try {
                 console.log('Fetching menu items...')
                 const { data, error } = await supabase
-                    .from('menu_items')
+                    .from('menus')
                     .select(`
                         *,
                         menu_images:menu_images(*)
@@ -39,16 +39,16 @@ const MenuPage = () => {
                 if (error) throw error
                 
                 if (data) {
-                    setMenuItems(data as unknown as MenuItem[])
+                    setMenus(data as unknown as MenuItem[])
                 }
             } catch (error) {
-                console.error('Error in fetchMenuItems:', error)
+                console.error('Error in fetchMenus:', error)
             } finally {
                 setLoading(false)
             }
         }
 
-        fetchMenuItems()
+        fetchMenus()
     }, [])
 
     if (loading) {
@@ -68,8 +68,8 @@ const MenuPage = () => {
         <main className={styles.root}>
             <Billboard/>
             <div className={styles.menuContainer}>
-                {menuItems.length > 0 ? (
-                    menuItems.map((item) => (
+                {menus.length > 0 ? (
+                    menus.map((item) => (
                         <Card
                             key={item.id}
                             name={item.name}
