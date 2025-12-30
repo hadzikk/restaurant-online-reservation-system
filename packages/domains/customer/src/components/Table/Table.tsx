@@ -4,34 +4,29 @@ import styles from './Table.module.css'
 interface TableTypes {
     width?: number
     height?: number
-    top?: number
-    left?: number
-    bottom?: number
-    right?: number
-    name: string
+    x?: number
+    y?: number
+    table_code: string
 }
 
 const Table: React.FC<TableTypes> = ({
     width = 60,
     height = 60,
-    top = 100,
-    left = 100,
-    bottom = 0,
-    right = 0,
-    name
+    table_code,
+    x = 0,
+    y = 0,
 }) => {
     return (
         <div 
             style={{
                 width: `${width}px`,
                 height: `${height}px`,
-                top: `${top}px`,
-                left: `${left}px`,
-                bottom: `${bottom}px`,
-                right: `${right}px`,
+                position: 'absolute',
+                left: `${x}px`,
+                top: `${y}px`,
             }} 
             className={styles.root}>
-            <p className={styles.name}>{name}</p>            
+            <p className={styles.name}>{table_code}</p>            
         </div>        
     )
 }

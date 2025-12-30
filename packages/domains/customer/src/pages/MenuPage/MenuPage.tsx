@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../../libs/supabase'
 import { CardSkeleton } from '../../../../shared/components'
-import { Billboard, Card, Navbar, Checkout  } from '../../components'
+import { Billboard, Card, Navbar, Checkout, Layout} from '../../components'
 import styles from './MenuPage.module.css'
 
 interface MenuImage {
@@ -53,20 +53,18 @@ const MenuPage = () => {
 
     if (loading) {
         return (
-            <main className={styles.root}>
-                <Billboard />
+            <Layout>
                 <div className={styles.menuContainer}>
                     {[...Array(8)].map((_, i) => (
                         <CardSkeleton key={i} />
                     ))}
                 </div>
-            </main>
+            </Layout>
         )
     }
 
     return (
-        <main className={styles.root}>
-            <Billboard/>
+        <Layout>
             <div className={styles.menuContainer}>
                 {menus.length > 0 ? (
                     menus.map((item) => (
@@ -82,9 +80,7 @@ const MenuPage = () => {
                     <p>There's no menu yet.</p>
                 )}
             </div>
-            <Navbar /> 
-            <Checkout />
-        </main>
+        </Layout>
     )
 }
 

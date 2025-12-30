@@ -9,7 +9,6 @@ interface MenuItem {
     price: number
     ratings: number
     image: string
-    
 }
 
 const Card:FC<MenuItem> = ({ name, price, ratings, image }) => {
