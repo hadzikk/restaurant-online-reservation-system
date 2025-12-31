@@ -1,5 +1,5 @@
 import React from 'react'
-import TableManagementPage from './pages/TableManagementPage/TableManagementPage'
+import { TableManagementPage } from './pages'
 
 const App = () => {
   return (

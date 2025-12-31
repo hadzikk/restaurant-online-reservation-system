@@ -1,12 +1,11 @@
 import React from 'react'
-import styles from './Rightbar.module.css'
+import styles from './Sidebar.module.css'
 
-const Rightbar = () => {
+const Sidebar = () => {
     return (
         <aside className={styles.root}>
-
         </aside>
     )
 }
 
-export default Rightbar
+export default Sidebar

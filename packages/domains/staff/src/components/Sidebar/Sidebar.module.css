@@ -1,0 +1,7 @@
+.root {
+    width: 50vw;
+    height: 100vh;
+    background-color: #FFFFFF;
+    z-index: 1;
+    border-left: 2px solid #EEEEEE;
+}
