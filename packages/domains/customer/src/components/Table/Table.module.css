@@ -4,10 +4,23 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #0a0a0a;
+}
+
+.root:hover {
+    cursor: pointer;
+}
+
+.root.selected {
     background-color: #0A0A0A;
 }
 
 .name {
-    color: #FFFFFF;
+    color: #0A0A0A;
     font-size: small;
+}
+
+.active {
+    color: #FFFFFF;
 }

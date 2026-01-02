@@ -1,10 +1,11 @@
+// src/pages/TablePage/TablePage.tsx
 import React, { useEffect, useState } from "react"
 import { supabase } from '../../libs/supabase'
 import { Table, TableDetails } from '../../components'
 import styles from './TablePage.module.css'
 import { Layout } from "../../components"
 
-interface TableStructure {
+interface TableData {
     id: number
     table_code: string
     width: number
@@ -14,9 +15,14 @@ interface TableStructure {
 }
 
 const ReservationPage = () => {
-    const [tables, setTables] = useState<TableStructure[]>([])
+    const [tables, setTables] = useState<TableData[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [selectedTableId, setSelectedTableId] = useState<number | null>(null)
+
+    const handleTableClick = (tableId: number) => {
+        setSelectedTableId(tableId)
+    }
 
     useEffect(() => {
         console.log('Fetching tables...')
@@ -31,7 +37,7 @@ const ReservationPage = () => {
                 console.log('Tables: ', data)
 
                 if (error) throw error
-                setTables(data)
+                setTables(data || [])
             } catch (error) {
                 setError(error instanceof Error ? error.message : 'Something went wrong.')
                 console.error('Error: ', error)
@@ -71,10 +77,14 @@ const ReservationPage = () => {
                             table_code={table.table_code}
                             x={table.x}
                             y={table.y}
+                            isSelected={selectedTableId === table.id}
+                            onClick={() => handleTableClick(table.id)}
                         />
                     ))}
                 </div>
-                <TableDetails/>
+                <TableDetails
+                  id={selectedTableId}  
+                />
             </div>       
         </Layout>
     )

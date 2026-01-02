@@ -4,74 +4,62 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import styles from './TableDetails.module.css'
 
-interface Table {
-  table_code: string
-  status: string
+interface TableDetailProps {
+    id: number | null
 }
 
-interface TableDetails {
-  capacity: number
-  description: string | null
-  table_size_id: number
-  restaurant_tables: Table
-  restaurant_table_locations: TableLocation
-  restaurant_table_sizes: TableSize
-  restaurant_table_features: TableFeatures[]
-}
-
-interface TableLocation {
-    id: number
-    name: string
-}
-
-interface TableSize {
-    name: string
-    description: string
-}
-
-interface TableFeatures {
-    name: string
-    description: string
-}
-
-interface TableLocation {
-    name: string
-}
-
-const TablePreview = () =>  {
-    const [table, setTable] = useState<TableDetails | null>(null)
-    const [loading, setLoading] = useState(true)
+const TablePreview = ({ id }: TableDetailProps) =>  {
+    const [table, setTable] = useState(null)
 
     useEffect(() => {
-        const fetchTableDetails = async () => {
-            const { data: table_details, error } = await supabase
-            .from('restaurant_table_details')
-            .select(`
-                *,
-                restaurant_tables(table_code, status),
-                restaurant_table_locations(name),
-                restaurant_table_sizes(name),
-                restaurant_table_features(name, description)
-            `)
-            .eq('id', 1)
-            .single()
-            if (error) {
-                console.error('Error fetching table details:', error);
-            } else {
-                console.log('Details', table_details);
-            }
-            setTable(table_details)
-        }
+            const fetchTable = async () => {
+                if (id === null) {
+                    setTable(null)
+                    return
+                }
 
-        fetchTableDetails()
-    }, [])
+                try {
+                    console.log('FETCHING TABLE...')
+                    const { data, error } = await supabase
+                    .from('restaurant_tables')
+                    .select(`
+                        table_code, 
+                        status,
+                        restaurant_table_details(
+                        capacity,
+                        description,
+                        restaurant_table_features(id, name, description),
+                        restaurant_table_images(image_url),
+                        restaurant_table_locations(name),
+                        restaurant_table_sizes(name)
+                        )
+                    `)
+                    .eq('id', id)
+                    .single()
+                    
+                    
+                    if (error) throw error
+                    
+                    if (data) {
+                        setTable(data)
+                    }
+
+                    console.log('TABLE & DETAIL:', data)
+
+                } catch (error) {
+                    console.error('ERROR IN FETCHTABLE:', error)
+                }
+            }
+    
+            fetchTable()
+        }, [id])
 
     return (
         <div className={styles.root}>
             <figure className={styles.figure}>
                 <img
                     className={styles.image}  
-                    src='https://cdn.cosmos.so/a6d966bc-7eaa-4068-b79d-7cfe65db74e3?format=jpeg' 
+                    src={table?.restaurant_table_details[0].restaurant_table_images[0].image_url} 
                     alt=''  
                 />
             </figure>
@@ -79,9 +67,9 @@ const TablePreview = () =>  {
                 <div className={styles.tableInfo}>
                     <div className={styles.tableHeader}>
                         <p className={styles.header}>table</p>
-                        <p className={styles.tableCode}>{table?.restaurant_tables?.table_code}</p>
+                        <p className={styles.tableCode}>{table?.table_code}</p>
                     </div>
-                    <span className={styles.status}>{table?.restaurant_tables?.status}</span>
+                    <span className={styles.status}>{table?.status}</span>
                 </div>
                 <details className={styles.detailItem}>
                     <summary className={styles.detailSummary}>
@@ -93,7 +81,7 @@ const TablePreview = () =>  {
                         </span>
                     </summary>
                     <div className={styles.detailContent}>
-                        <p>{table?.description}</p>
+                        <p>{table?.restaurant_table_details[0].description}</p>
                     </div>
                 </details>
                 <details className={styles.detailItem}>
@@ -116,15 +104,15 @@ const TablePreview = () =>  {
                             <tbody>
                                 <tr>
                                     <td>Size</td>
-                                    <td>{table?.restaurant_table_sizes?.name}</td>
+                                    <td>{table?.restaurant_table_details[0]?.restaurant_table_sizes?.name || 'N/A'}</td>
                                 </tr>
                                 <tr>
                                     <td>Capacity</td>
-                                    <td>{table?.capacity} people</td>
+                                    <td>{table?.restaurant_table_details[0]?.capacity || 'N/A'}</td>
                                 </tr>
                                 <tr>
                                     <td>Place</td>
-                                    <td>{table?.restaurant_table_locations?.name}</td>
+                                    <td>{table?.restaurant_table_details[0]?.restaurant_table_locations?.name}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,8 +136,8 @@ const TablePreview = () =>  {
                                 </tr>
                             </thead>
                             <tbody>
-                                {table?.restaurant_table_features.map((feature) => (
-                                    <tr>
+                                {table?.restaurant_table_details[0]?.restaurant_table_features?.map((feature) => (
+                                    <tr key={feature.id}>
                                         <td>{feature.name}</td>
                                         <td>{feature.description}</td>
                                     </tr>
