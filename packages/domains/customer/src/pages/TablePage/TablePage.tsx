@@ -1,9 +1,8 @@
 // src/pages/TablePage/TablePage.tsx
 import React, { useEffect, useState } from "react"
 import { supabase } from '../../libs/supabase'
-import { Table, TableDetails } from '../../components'
+import { Layout, Table, TableDetails } from '../../components'
 import styles from './TablePage.module.css'
-import { Layout } from "../../components"
 
 interface TableData {
     id: number

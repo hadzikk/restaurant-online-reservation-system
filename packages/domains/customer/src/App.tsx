@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import CheckoutContextProvider from './contexts/CheckoutContext/CheckoutContext'
+import { CheckoutContextProvider, OrderContextProvider } from './contexts'
 import { MenuPage, TablePage } from './pages'
 
 const App = () => {
   return (
-    <CheckoutContextProvider>
-      <TablePage/>
-    </CheckoutContextProvider>
+    <OrderContextProvider>
+      <CheckoutContextProvider>
+        <MenuPage/>
+      </CheckoutContextProvider>
+    </OrderContextProvider>
   )
 }
 

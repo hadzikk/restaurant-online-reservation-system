@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { supabase } from '../../libs/supabase'
+import { UseOrder } from '../../contexts'
 import { CardSkeleton } from '../../../../shared/components'
-import { Billboard, Card, Navbar, Checkout, Layout} from '../../components'
+import { Card, Layout} from '../../components'
 import styles from './MenuPage.module.css'
 
 interface MenuImage {
@@ -19,6 +20,7 @@ interface MenuItem {
 }
 
 const MenuPage = () => {
+    const { orderId } = useContext(UseOrder)
     const [menus, setMenus] = useState<MenuItem[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -70,10 +72,12 @@ const MenuPage = () => {
                     menus.map((item) => (
                         <Card
                             key={item.id}
+                            id={item.id}
                             name={item.name}
                             price={item.price}
                             ratings={0}
                             image={item.menu_images?.[0]?.image_url}
+                            order_id={orderId || 0}
                         />
                     ))
                 ) : (

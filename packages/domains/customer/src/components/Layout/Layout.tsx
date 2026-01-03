@@ -1,5 +1,5 @@
 import React, { type ReactNode } from 'react'
-import { Billboard, Navbar, Checkout } from '../../components'
+import { Billboard, Navbar, Checkout } from '..'
 import styles from './Layout.module.css'
 
 interface LayoutProps {
