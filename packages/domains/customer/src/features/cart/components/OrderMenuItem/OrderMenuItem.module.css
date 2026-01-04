@@ -1,0 +1,31 @@
+.root {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: small;
+    font-weight: 500;
+}
+
+.remove {
+    border: none;
+    outline: none;
+    background-color: #FFFFFF;
+    color: #000000;
+    font-size: small;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.control {
+    border: none;
+    outline: none;
+    padding: 2px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: small;
+    border-radius: 4px;
+}
