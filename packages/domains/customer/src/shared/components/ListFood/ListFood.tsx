@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { formatToRupiah } from '../../../../shared/utils/textUtils'
+import { formatToRupiah } from '../../../../../shared/utils/textUtils'
 import styles from './ListFood.module.css'
 
 interface ListFoodProps {

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { supabase } from '../../libs/supabase'
-import { formatToRupiah } from '../../../../shared/utils/textUtils'
+import { formatToRupiah } from '../../../../../shared/utils/textUtils'
 import { ListVenue, ListFood } from '..'
 import styles from './Checkout.module.css'
 import { OpenCheckout } from '../../contexts'

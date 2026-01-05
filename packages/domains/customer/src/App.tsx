@@ -1,14 +1,8 @@
-import { useState } from 'react'
-import { CheckoutContextProvider, OrderContextProvider } from './contexts'
-import { MenuPage, TablePage } from './pages'
+import { OrderMenuPage } from './pages'
 
 const App = () => {
   return (
-    <OrderContextProvider>
-      <CheckoutContextProvider>
-        <MenuPage/>
-      </CheckoutContextProvider>
-    </OrderContextProvider>
+    <OrderMenuPage/>
   )
 }
 

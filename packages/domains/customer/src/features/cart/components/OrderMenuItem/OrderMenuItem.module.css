@@ -29,3 +29,13 @@
     font-size: small;
     border-radius: 4px;
 }
+
+.quantity {
+    font-size: small;
+    margin: 0 5px;
+}
+
+.subtotal {
+    font-size: small;
+    font-weight: 500;
+}
