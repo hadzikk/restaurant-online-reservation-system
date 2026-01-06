@@ -21,6 +21,15 @@ const OrderMenuItem: FC<OrderMenuItemProps> = ({ ordered_menu }) => {
             console.error('Failed to update quantity:', error)
         }
     }
+    const handleDecrease = async () => {
+        try {
+            const newQuantity = quantity - 1
+            await OrderService.updateMenuQuantity(ordered_menu.id, newQuantity)
+            setQuantity(newQuantity)
+        } catch (error) {
+            console.error('Failed to update quantity:', error)
+        }
+    }
 
     return (
         <li className={styles.root}>
@@ -34,17 +43,18 @@ const OrderMenuItem: FC<OrderMenuItemProps> = ({ ordered_menu }) => {
                 <div className={styles.controls}>
                     <button 
                         className={styles.control}
-                        onClick={handleIncrease}
+                        onClick={handleDecrease}
                     >
-                        <FontAwesomeIcon icon={faPlus} />
+                        <FontAwesomeIcon icon={faMinus} />
                     </button>
                     <span className={styles.quantity}>
                         {ordered_menu.quantity}
                     </span>
                     <button 
                         className={styles.control}
+                        onClick={handleIncrease}
                     >
-                        <FontAwesomeIcon icon={faMinus} />
+                        <FontAwesomeIcon icon={faPlus} />
                     </button>
                 </div>
                 <span className={styles.subtotal}>
