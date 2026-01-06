@@ -5,11 +5,6 @@ import { formatToRupiah } from '../../../../shared/utils'
 import { OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
 
-interface OrderedTable {
-    id: number
-    table_code: string
-}
-
 const Cart = () => {
     const { cart, orderedTables, orderedMenus, error, loading } = useCart()
 
