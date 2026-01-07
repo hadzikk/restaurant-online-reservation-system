@@ -1,0 +1,1 @@
+export { default as MenuService } from './menu.service'
