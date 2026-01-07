@@ -1,0 +1,101 @@
+.root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 5vw;
+    height: 100vh;
+    padding: 10px;
+    background-color: #F7F7F7;
+}
+
+.profileContainer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    border-bottom: 2px solid #E9E9E9;
+}
+
+.pictureContainer {
+    width: 45px;
+    height: 45px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+}
+
+.picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50px;
+}
+
+.navbarListContainer {
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 2px solid #E9E9E9;
+}
+
+.navbarTitle {
+    display: none;
+}
+
+.navbarList {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.icon {
+    color: #CCCDCC;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+.svg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon:hover {
+    background-color: #E9E9E9;
+    color: #000000;
+    cursor: pointer;
+}
+
+.navbarName {
+    display: none;
+    font-size: small;
+    text-transform: capitalize;
+}
+
+.active {
+    background-color: #FFFFFF;
+    color: green;
+    box-shadow: 1px 1px 5px #E9E9E9;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+.tooltip:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #000;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  z-index: 1000;
+}
