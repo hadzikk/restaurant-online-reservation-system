@@ -1,6 +1,4 @@
-name = "restaurant-reservation"
-main = "dist/index.html"
-compatibility_date = "2026-01-08"
-
-[site]
-bucket = "dist"
+name = "restaurant-customer"
+main = "domains/customer/dist/index.html"
+compatibility_date = "2026-01-07"
+pages_build_output_dir = "domains/customer/dist"
