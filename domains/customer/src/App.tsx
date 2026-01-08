@@ -1,8 +1,10 @@
-import { OrderMenuPage } from './pages'
+import React from 'react'
+import { LoginPage, RegisterPage } from './pages'
 
 const App = () => {
   return (
-    <OrderMenuPage/>
+    <RegisterPage />
+    // <LoginPage />
   )
 }
 

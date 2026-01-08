@@ -22,10 +22,10 @@ const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
             </figure>
             
             <div className={styles.textContainer}>
-                <div className={styles.rate}>
+                {/* <div className={styles.rate}>
                     <FontAwesomeIcon className={styles.icon} icon={faStar} /> 
                     <span className={styles.score}>4</span>
-                </div>
+                </div> */}
                 <h1 className={styles.name}>{truncateMiddle(menu.name, 7, 5)}</h1>
             </div>
 

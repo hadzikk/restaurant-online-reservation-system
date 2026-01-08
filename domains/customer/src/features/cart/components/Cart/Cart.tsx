@@ -2,14 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { OrderService } from '../../api'
 import { useCart } from '../../hooks'
 import { formatToRupiah } from '../../../../shared/utils'
-import { OrderMenuList, OrderTableList } from '../../components'
+import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
 
 const Cart = () => {
     const { cart, orderedTables, orderedMenus, total, error, loading } = useCart()
+    const [isOpen, setIsOpen] = useState(true)
+    const toggleCart = () => {
+        const cartElement = document.querySelector(`.${styles.cart}`)
+        if (cartElement) {
+            cartElement.classList.remove(styles.slide)
+        }
 
-    if (loading) {
-        return <div>Loading cart...</div>
+        setTimeout(() => {
+            setIsOpen(false)
+        }, 300)
+    }
+
+    if (loading) { 
+        return <div className={styles.root}><CartSkeleton/></div>
     }
 
     if (error) {
@@ -21,8 +32,15 @@ const Cart = () => {
     }
 
     return (
-        <div className={styles.root}>
-            <aside className={styles.cart}>
+        <div 
+            className={`${styles.root} ${isOpen ? styles.open : ''}`}
+            onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                    toggleCart()
+                }
+            }}
+        >
+            <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
                 <div className={styles.content}>
                     <p className={styles.title}>checkout</p>
                     <p className={styles.title}>tables</p>
@@ -37,7 +55,16 @@ const Cart = () => {
                     <span className={styles.total}>{formatToRupiah(total)}</span>
                 </div>
                 <div className={styles.controls}>
-                    <button className={styles.control}>close</button>
+                    <button 
+                        className={styles.control}
+                        onClick={(e) => {
+                            if (e.target === e.currentTarget) {
+                                toggleCart()
+                            }
+                        }}
+                    >
+                        close
+                    </button>
                     <button className={styles.control}>pay</button>
                 </div>
             </aside>
