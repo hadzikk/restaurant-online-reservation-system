@@ -1,0 +1,47 @@
+label {
+    margin: 5px 0;
+    display: block;
+    width: 100%;
+}
+
+input {
+    outline: none;
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    border-radius: 4px;   
+    display: block;
+    width: 100%;
+}
+
+select {
+    outline: none;
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    border-radius: 4px;   
+    display: block;
+}
+
+option {
+    background-color: #FFFFFF;
+}
+
+option:hover {
+    background-color: #EEEEEE;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+}
+
+.gender {
+    width: 100%;
+}
+
+.large {
+    padding: 20px 5px;
+}
+
+.medium {
+    padding: 10px 5px;
+}
