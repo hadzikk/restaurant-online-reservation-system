@@ -5,5 +5,8 @@
   "site": {
     "bucket": "dist",
     "entry-point": "dist"
+  },
+  "assets": {
+    "directory": "./dist"
   }
 }
