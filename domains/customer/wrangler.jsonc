@@ -1,7 +1,5 @@
 {
-    "name": "restaurant-customer",
-    "compatibility_date": "2026-01-08",
-    "assets": {
-        "directory": "./dist"
-    }
+  "name": "restaurant-customer",
+  "compatibility_date": "2025-01-01",
+  "pages_build_output_dir": "dist"
 }
