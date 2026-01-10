@@ -1,6 +1,7 @@
 import React from 'react'
 import { Divider, GoogleProviderButton, SpotifyProviderButton, Button, Input, Logo } from '../../shared/components'
 import styles from './LoginPage.module.css'
+import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
     return (
@@ -32,7 +33,9 @@ const LoginPage = () => {
                 <GoogleProviderButton text={'Get in with Google account'}/>
                 <SpotifyProviderButton text={'Get in with Spotify account'}/>
                 <Divider/>
-                <Button text={'Create an account'}/>
+                <Link to="/register" style={{ textDecoration: 'none' }}>
+                    <Button text={'Create an account'} type="button"/>
+                </Link>
             </div>
         </main>
     )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Divider, GoogleProviderButton, SpotifyProviderButton, Input, Button, Logo } from '../../shared/components'
 import styles from './RegisterPage.module.css'
 
@@ -62,7 +63,9 @@ const RegisterPage = () => {
                     <br />
                     <Button text={'Create account'} type={'submit'} size={'medium'}/>
                     <Divider />
-                    <Button text="I already have an account and Login" type="button" />
+                    <Link to="/login" style={{ textDecoration: 'none' }}>
+                        <Button text="I already have an account and Login" type="button" />
+                    </Link>
                 </div>
             </div>
         </div>
