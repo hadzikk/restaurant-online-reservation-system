@@ -37,8 +37,10 @@ html, body {
     top: 50%;
     z-index: 1;
     padding: 20px 0;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
+    will-change: transform;
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden; /* Improve performance on mobile */
+    perspective: 1000px;
 }
 
 .parallax.fixed {
@@ -53,6 +55,7 @@ html, body {
     z-index: 100;
     pointer-events: none;
     margin: 0;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother transition */
 }
 
 .parallax figure {

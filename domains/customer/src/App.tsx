@@ -1,16 +1,22 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { LoginPage, RegisterPage, LandingPage } from './pages'
+import { Routes, Route } from 'react-router-dom'
+import { ProtectedRoute } from './shared/routes'
+import { LoginPage, RegisterPage, LandingPage, OrderMenuPage } from './pages'
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route
+        path="/menu"
+        element={
+          <ProtectedRoute>
+            <OrderMenuPage />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   )
 }
 

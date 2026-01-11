@@ -38,11 +38,11 @@ const OrderService = {
     },
     async updateOrderTotal(id: number, total: number) {        
         const { data: updatedOrderTotal, error } = await supabase
-        .from('orders')
-        .update({ total: total })
-        .eq('id', id)
-        .select('*')
-        .single()
+            .from('orders')
+            .update({ total: total })
+            .eq('id', id)
+            .select('*')
+            .single()
         if (error) throw error
         return updatedOrderTotal
     }

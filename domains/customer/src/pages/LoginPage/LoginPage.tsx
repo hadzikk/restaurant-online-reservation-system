@@ -26,7 +26,7 @@ const LoginPage = () => {
                         label="Password"
                         placeholder="Enter your password..."
                     />
-                    <Button text="Login" type="submit"/>
+                    <Button text="Login" />
                 </div>
 
                 <Divider/>
