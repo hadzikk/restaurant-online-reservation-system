@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../shared/hooks'
 import { Divider, GoogleProviderButton, SpotifyProviderButton, Button, Input, Logo } from '../../shared/components'
 import styles from './LoginPage.module.css'
-import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
+
     return (
         <main className={styles.root}>
             <div className={styles.container}>
@@ -13,27 +15,38 @@ const LoginPage = () => {
 
                 <p className={styles.hint}>Before order, please login.</p>
 
+                {/* Login form */}
                 <div className={styles.card}>
-                    <Input
-                        id="email"
-                        type="email"
-                        label="Email"
-                        placeholder="Enter your email..."
-                    />
-                    <Input
-                        id="password"
-                        type="password"
-                        label="Password"
-                        placeholder="Enter your password..."
-                    />
-                    <Button text="Login" />
+                    <form>
+                        <Input
+                            id="email"
+                            type="email"
+                            label="Email"
+                            placeholder="Enter your email..."
+                        />
+                        <Input
+                            id="password"
+                            type="password"
+                            label="Password"
+                            placeholder="Enter your password..."
+                        />
+                        <br />
+                        <Button 
+                            text="Login" 
+                            type="submit" 
+                        />
+                    </form>
                 </div>
 
+                {/* These are alternatives authentications options */}
                 <Divider/>
-                <GoogleProviderButton text={'Get in with Google account'}/>
-                <SpotifyProviderButton text={'Get in with Spotify account'}/>
+
+                {/* Authenticate using providers */}
+                <GoogleProviderButton text={'Login with Google account'}/>
                 <Divider/>
-                <Link to="/register" style={{ textDecoration: 'none' }}>
+
+                {/* Create an account traditionally */}
+                <Link to="/register">
                     <Button text={'Create an account'} type="button"/>
                 </Link>
             </div>

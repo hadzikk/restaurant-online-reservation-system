@@ -4,15 +4,19 @@ import type { Menu } from '../../features/menu/types'
 import { MenuSkeletonLoader, MenuList } from '../../features/menu/components'
 import { Cart } from '../../features/cart/components'
 import styles from './OrderMenuPage.module.css'
+import { useAuth } from '../../shared/hooks'
 
 type Props = {
     Menu: Menu[]
 }
 
-const OrderMenuPage: React.FC<Props> = ({ Menu }) => {
+const OrderMenuPage = () => {
     const [menus, setMenus] = useState<Menu[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
+    const { session } = useAuth()
+
+    console.log(session)
 
     useEffect(() => {
     const fetchMenus = async () => {

@@ -7,15 +7,10 @@ interface InputProps {
   type?: string
   placeholder?: string
   size?: 'small' | 'medium' | 'large'
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
 
-const Input: FC<InputProps> = ({
-  id,
-  label,
-  type = 'text',
-  placeholder = '',
-  size
-}) => {
+const Input: FC<InputProps> = ({ id, label, type = 'text', placeholder = '', size, onChange }) => {
   if (type === 'phone') {
     return (
       <div className={styles.root}>
@@ -34,9 +29,9 @@ const Input: FC<InputProps> = ({
     return (
       <div className={styles.root}>
         <label htmlFor={id}>{label}</label>
-        <select className={styles.gender} name="" id="">
-          <option value="male">male</option>
-          <option value="female">female</option>
+        <select className={styles.gender} name="gender" id={id}>
+          <option id="1" value="male">male</option>
+          <option id="2" value="female">female</option>
         </select>
       </div>
     )
@@ -46,10 +41,11 @@ const Input: FC<InputProps> = ({
     <div className={styles.root}>
       <label htmlFor={id}>{label}</label>
       <input
+        className={styles[size]}
         id={id}
         type={type}
         placeholder={placeholder}
-        className={styles[size]}
+        onChange={onChange}
       />
     </div>
   )
