@@ -2,21 +2,19 @@ import type { Session } from "@supabase/supabase-js"
 
 export type AuthContextType = {
     session: Session | null
-    login: (email: string, password: string) => Promise<{
-        success: boolean
-        error?: any
-        data?: {
-            user: any
-            session: any
+    register: (
+        data: {
+            email: string
+            password: string
+            first_name: string
+            middle_name?: string
+            last_name?: string
         }
-    }>
-    register: (email: string, password: string) => Promise<{
-        success: boolean
-        error?: any
-        data?: {
-            user: any
-            session: any
+    ) => Promise<void>
+    login: (
+        data: {
+            email: string
+            password: string
         }
-    }>
-    signOut: () => Promise<{ error?: Error }>
+    ) => Promise<void>
 }

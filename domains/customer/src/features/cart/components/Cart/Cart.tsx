@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { OrderService } from '../../api'
 import { useCart } from '../../hooks'
 import { formatToRupiah } from '../../../../shared/utils'
 import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'

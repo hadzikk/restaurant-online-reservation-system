@@ -1,33 +1,52 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../shared/hooks'
-import { Divider, GoogleProviderButton, SpotifyProviderButton, Input, Button, Logo } from '../../shared/components'
+import toast from 'react-hot-toast'
+import { Divider, GoogleProviderButton, Logo } from '../../shared/components'
 import styles from './RegisterPage.module.css'
 
 const RegisterPage = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
     const { session, register } = useAuth()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [formData, setFormData] = useState({
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        email: '',
+        password: ''
+    })
 
-    useEffect(() => {
-        console.log('Session updated:', session)
-    }, [session])
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value
+        })
+    }
 
-    const handleSignUp = async (e) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        setLoading(true)
+        setIsLoading(true)
+
         try {
-            const result = await register(email, password)
-            if (result.success) {
-                navigate('/menu')
+            if (!formData.first_name || !formData.email || !formData.password) {
+                const errorMsg = 'Please fill in all required fields'
+                setError(errorMsg)
+                toast.error(errorMsg)
+                return
             }
-        } catch (error) {
-            console.error(error)
+            
+            await register(formData)
+            toast.success('Registration successful!')
+            navigate('/login')
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Registration failed. Please try again.'
+            setError(errorMsg)
+            toast.error(errorMsg)
+            throw new Error(err.message)
         } finally {
-            setLoading(false)
+            setIsLoading(false)
         }
     }
 
@@ -40,73 +59,40 @@ const RegisterPage = () => {
             <div className={styles.content}>
                 <div className={styles.card}>
                     <Logo />
-                    <p className={styles.title}>Let's get started</p>
+                    <p className={styles.title}>Create an account</p>
+                    <Divider />
 
                     {/* Directly login with these options without register */}
                     <GoogleProviderButton text={'Continue with Google'} size={'medium'} />
                     <Divider />
                     
                     {/* Register form */}
-                    <form onSubmit={handleSignUp}>
-                        <Input
-                            id="email"
-                            type="email"
-                            label="Email"
-                            size="medium"
-                            placeholder="Your email"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <Input
-                            id="first_name"
-                            type="text"
-                            label="First Name"
-                            size="medium"
-                            placeholder="What's your first name?"
-                        />
-                        <Input
-                            id="middle_name"
-                            type="text"
-                            label="Middle Name"
-                            size="medium"
-                            placeholder="What's your middle name?"
-                        />
-                        <Input
-                            id="last_name"
-                            type="text"
-                            label="Last Name"
-                            size="medium"
-                            placeholder="What's your last name?"
-                        />
-                        <Input
-                            id="gender"
-                            type="gender"
-                            label="Gender"
-                            size="medium"
-                            placeholder=""
-                        />
-                        <Input
-                            id="phone"
-                            type="phone"
-                            label="Phone Number"
-                            size="medium"
-                            placeholder=""
-                        />
-                        <Input
-                            id="password"
-                            type="password"
-                            label="Password"
-                            size="medium"
-                            placeholder="Create a password"
-                        />
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="first_name">First Name</label>
+                        <input type="text" onChange={handleChange} placeholder='Your first name' id='first_name' required />
                         
-                        <br />
-                        <Button text={'Create account'} type={'submit'} size={'medium'}/>
+                        <label htmlFor="middle_name">Middle Name</label>
+                        <input type="text" onChange={handleChange} placeholder='Your middle name' id='middle_name'/>
+                        
+                        <label htmlFor="last_name">Last Name</label>
+                        <input type="text" onChange={handleChange} placeholder='Your last name' id='last_name'/>
+
+                        <label htmlFor="email">Email</label>
+                        <input type="text" onChange={handleChange} placeholder='Your email' id='email' required/>
+
+                        <label htmlFor="password">Password</label>
+                        <input type="password" onChange={handleChange} placeholder='Create a password' id='password' required />
+                        
+                        <button type="submit" disabled={isLoading}>
+                            {
+                                isLoading ? 'Creating account...' : 'Create account'
+                            }
+                        </button>
                     </form>
 
+
                     <Divider />
-                    <Link to="/login" style={{ textDecoration: 'none' }}>
-                        <Button text="I already have an account and Login" type="button" />
-                    </Link>
+                    <a href="/login" className={styles.link} aria-disabled={isLoading}>I already have an account</a>
                 </div>
             </div>
         </div>

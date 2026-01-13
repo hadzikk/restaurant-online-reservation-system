@@ -1,10 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../shared/hooks'
+import toast from 'react-hot-toast'
 import { Divider, GoogleProviderButton, SpotifyProviderButton, Button, Input, Logo } from '../../shared/components'
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
+    const { session, login } = useAuth()
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault()
+        setIsLoading(true)
+
+        try {
+            if (!formData.email || !formData.password) {
+                const errorMsg = 'Please fill in all required fields'
+                setError(errorMsg)
+                toast.error(errorMsg)
+                return
+            }
+            
+            await login(formData)
+            toast.success('Login successful!')
+            navigate('/menu')
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Login failed. Please try again.'
+            setError(errorMsg)
+            toast.error(errorMsg)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <main className={styles.root}>
@@ -17,24 +57,12 @@ const LoginPage = () => {
 
                 {/* Login form */}
                 <div className={styles.card}>
-                    <form>
-                        <Input
-                            id="email"
-                            type="email"
-                            label="Email"
-                            placeholder="Enter your email..."
-                        />
-                        <Input
-                            id="password"
-                            type="password"
-                            label="Password"
-                            placeholder="Enter your password..."
-                        />
-                        <br />
-                        <Button 
-                            text="Login" 
-                            type="submit" 
-                        />
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="email">Email</label>
+                        <input type="text" placeholder="Enter your email..." id="email" onChange={handleChange} required />
+                        <label htmlFor="password">Password</label>
+                        <input type="password" placeholder="Enter your password..." id="password" onChange={handleChange} required />
+                        <button type="submit">Login</button>
                     </form>
                 </div>
 

@@ -1,7 +1,7 @@
 import { supabase } from  '../../../shared/api/supabase'
 
 const OrderService = {
-    async getOrderById(id: number) {
+    async getOrderById(id: string) {
         let { data: order, error } = await supabase
             .from('orders')
             .select(`

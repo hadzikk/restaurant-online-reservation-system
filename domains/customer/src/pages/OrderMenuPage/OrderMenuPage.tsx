@@ -5,6 +5,7 @@ import { MenuSkeletonLoader, MenuList } from '../../features/menu/components'
 import { Cart } from '../../features/cart/components'
 import styles from './OrderMenuPage.module.css'
 import { useAuth } from '../../shared/hooks'
+import { Navbar } from '../../shared/components'
 
 type Props = {
     Menu: Menu[]
@@ -15,8 +16,6 @@ const OrderMenuPage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
     const { session } = useAuth()
-
-    console.log(session)
 
     useEffect(() => {
     const fetchMenus = async () => {
@@ -43,17 +42,23 @@ const OrderMenuPage = () => {
 
   if (error) {
     return (
-      <main className={styles.root}>
-        <div className={styles.error}>{error}</div>
-      </main>
+      <>
+        <Navbar />
+        <main className={styles.root}>
+          <div className={styles.error}>{error}</div>
+        </main>
+      </>
     )
   }
 
   return (
-    <main className={styles.root}>
-      <MenuList menus={menus} />
-      <Cart />
-    </main>
+    <>
+      <Navbar />
+      <main className={styles.root}>
+        <MenuList menus={menus} />
+        <Cart />
+      </main>
+    </>
   )
 }
 

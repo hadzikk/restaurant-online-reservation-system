@@ -46,6 +46,48 @@
     object-fit: cover;
 }
 
+button[type="submit"] {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    outline: none;
+    border: none;
+    width: 100%;
+    display: block;
+    margin: 20px 0 0 0;
+    border-radius: 4px;
+}
+
+button[type="submit"]:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link {
+    width: 100%;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #000000;
+    font-size: small;
+    border-radius: 4px;
+}
+
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: #FAFAFA;
+}
+
+
+
+
+
+
+
+
 @media (max-width: 576px) {
   .root {
     display: flex;

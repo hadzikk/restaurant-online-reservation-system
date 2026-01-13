@@ -1,16 +1,20 @@
 // useCart.tsx
 import { useEffect, useState, useMemo, useCallback } from 'react'
-import { OrderService } from '../api'
 import { supabase } from '../../../shared/api/supabase'
+import { OrderService } from '../api'
+import { useAuth } from '../../../shared/hooks'
 import type { Cart, OrderedTable, OrderedMenu } from '../types'
 
-const useCart = (userId: number = 4) => {
+const useCart = () => {
     const [cart, setCart] = useState<Cart[]>([])
     const [orderedTables, setOrderedTables] = useState<OrderedTable[]>([])
     const [orderedMenus, setOrderedMenus] = useState<OrderedMenu[]>([])
     const [error, setError] = useState<string | null>(null)
     const [loading, setIsLoading] = useState(true)
     const [isUpdatingTotal, setIsUpdatingTotal] = useState(false)
+    const { session } = useAuth()
+
+    console.log(session.user)
 
     const total = useMemo(() => {
         return orderedMenus.reduce((sum, item) => {
@@ -39,7 +43,7 @@ const useCart = (userId: number = 4) => {
 
     const fetchCart = async () => {
         try {
-            const response = await OrderService.getOrderById(userId)
+            const response = await OrderService.getOrderById(session.user.id)
             if (response && response.length > 0) {
                 setCart(response)
                 setOrderedTables(response[0].order_table_lines || [])
@@ -57,7 +61,7 @@ const useCart = (userId: number = 4) => {
     }
 
     useEffect(() => {
-        if (!userId) return
+        if (!session.user.id) return
 
         fetchCart()
 
@@ -107,7 +111,7 @@ const useCart = (userId: number = 4) => {
             supabase.removeChannel(menuLinesChannel)
             supabase.removeChannel(ordersChannel)
         }
-    }, [userId, cart[0]?.id])
+    }, [session.user.id, cart[0]?.id])
 
     return {
         cart,
