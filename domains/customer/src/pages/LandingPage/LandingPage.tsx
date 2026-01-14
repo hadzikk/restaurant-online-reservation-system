@@ -16,7 +16,6 @@ const LandingPage = () => {
         'https://cdn.cosmos.so/665aacb5-fb6c-4063-8f48-900d88481205?format=jpeg'
     ]
 
-    // Add this utility function at the top of your file
 function debounce<T extends (...args: any[]) => any>(func: T, wait: number) {
     let timeout: ReturnType<typeof setTimeout>
     return function executedFunction(...args: Parameters<T>) {
@@ -29,51 +28,50 @@ function debounce<T extends (...args: any[]) => any>(func: T, wait: number) {
     }
 }
 
-// Then in your component, modify the useEffect:
 useEffect(() => {
     let lastScrollY = window.scrollY
     let ticking = false
 
     const updateScrollDirection = () => {
-    const scrollY = window.scrollY;
-    const scrollDirection = scrollY > lastScrollY ? 'down' : 'up';
-    lastScrollY = scrollY > 0 ? scrollY : 0;
+    const scrollY = window.scrollY
+    const scrollDirection = scrollY > lastScrollY ? 'down' : 'up'
+    lastScrollY = scrollY > 0 ? scrollY : 0
 
     if (scrollY > 100) {
-        setIsFixed(true);
+        setIsFixed(true)
     } else {
-        setIsFixed(false);
+        setIsFixed(false)
     }
 
-    const viewportHeight = window.innerHeight;
-    const scrollPercentage = (scrollY / (document.body.scrollHeight - viewportHeight)) * 100;
+    const viewportHeight = window.innerHeight
+    const scrollPercentage = (scrollY / (document.body.scrollHeight - viewportHeight)) * 100
         
-    const tableCount = tableRefs.current.length;
+    const tableCount = tableRefs.current.length
     const activeIndex = Math.min(
         Math.floor((scrollPercentage / 100) * tableCount),
         tableCount - 1
-    );
+    )
     
-    // Only update if the active index has changed
+    // Update if the active index has changed
     if (activeIndex !== activeTable) {
-        setActiveTable(activeIndex);
+        setActiveTable(activeIndex)
     }
 
     // Handle auto-scroll based on scroll direction
     if (scrollDirection === 'down' && activeIndex === tableCount - 1) {
-        const scrollThreshold = 0.9;
+        const scrollThreshold = 0.9
         if (scrollY >= (document.body.scrollHeight - viewportHeight) * scrollThreshold) {
-            const nextSection = document.querySelector(`.${styles.callToAction}`);
+            const nextSection = document.querySelector(`.${styles.callToAction}`)
             if (nextSection) {
-                nextSection.scrollIntoView({ behavior: 'smooth' });
+                nextSection.scrollIntoView({ behavior: 'smooth' })
             }
         }
     } else if (scrollDirection === 'up' && scrollY < 100) {
         // Scroll to top when scrolling up near the top of the page
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    ticking = false;
+    ticking = false
 }
 
     const handleScroll = () => {

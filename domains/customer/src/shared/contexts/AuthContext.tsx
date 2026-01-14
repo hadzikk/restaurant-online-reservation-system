@@ -12,6 +12,8 @@ export const AuthContext = createContext<AuthContextType | null>(null)
 
 const AuthContextProvider = ({ children }: Props) => {
     const [session, setSession] = useState<Session | null>(null)
+    const [loading, setLoading] = useState(true)
+    const user = session?.user ?? null
 
     const register = async (data: {
         email: string
@@ -66,6 +68,7 @@ const AuthContextProvider = ({ children }: Props) => {
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session)
+            setLoading(false)
         })
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -76,7 +79,7 @@ const AuthContextProvider = ({ children }: Props) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ session, register, login }}>
+        <AuthContext.Provider value={{ session, register, login, user, loading }}>
             {children}
         </AuthContext.Provider>
     )

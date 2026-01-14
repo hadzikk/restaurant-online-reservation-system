@@ -1,10 +1,38 @@
-// this is an object that you will call for create a route { createBrowserRouter }
 import { createBrowserRouter } from 'react-router-dom'
+import { ProtectedRoute, GuestRoute } from './shared/utils'
 import { LandingPage, LoginPage, RegisterPage, OrderMenuPage } from './pages'
 
 export const router = createBrowserRouter([
-    { path: '/', element: <LandingPage /> },
-    { path: '/login', element: <LoginPage /> },
-    { path: '/register', element: <RegisterPage /> },
-    { path: '/menu', element: <OrderMenuPage /> }
+    { 
+        path: '/', 
+        element: (
+            <GuestRoute>
+                <LandingPage />
+            </GuestRoute>
+        ) 
+    },
+    { 
+        path: '/login', 
+        element: (
+            <GuestRoute>
+                <LoginPage />
+            </GuestRoute>
+        ) 
+    },
+    { 
+        path: '/register', 
+        element: (
+            <GuestRoute>
+                <RegisterPage />
+            </GuestRoute>
+        ) 
+    },
+    { 
+        path: '/menu', 
+        element: (
+        <ProtectedRoute>
+            <OrderMenuPage />
+        </ProtectedRoute>
+        ) 
+    }
 ])
