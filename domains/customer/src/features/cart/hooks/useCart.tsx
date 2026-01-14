@@ -1,4 +1,3 @@
-// useCart.tsx
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { supabase } from '../../../shared/api/supabase'
 import { OrderService } from '../api'
@@ -13,9 +12,7 @@ const useCart = () => {
     const [loading, setIsLoading] = useState(true)
     const [isUpdatingTotal, setIsUpdatingTotal] = useState(false)
     const { session } = useAuth()
-
-    console.log(session.user)
-
+    
     const total = useMemo(() => {
         return orderedMenus.reduce((sum, item) => {
             return sum + (item.quantity * item.unit_price)

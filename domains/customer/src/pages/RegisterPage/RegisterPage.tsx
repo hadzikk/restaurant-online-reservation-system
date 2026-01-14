@@ -1,5 +1,5 @@
 import React, { useState, useEffect, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../shared/hooks'
 import toast from 'react-hot-toast'
 import { Divider, GoogleProviderButton, Logo } from '../../shared/components'

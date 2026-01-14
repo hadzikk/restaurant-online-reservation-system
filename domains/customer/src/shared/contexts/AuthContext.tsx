@@ -21,7 +21,6 @@ const AuthContextProvider = ({ children }: Props) => {
         last_name?: string
     }) => {
         try {
-            // 1. Register user di auth.users
             const { data: auth, error: errorAuth } = await supabase.auth.signUp({
                 email: data.email,
                 password: data.password
@@ -30,9 +29,8 @@ const AuthContextProvider = ({ children }: Props) => {
             if (errorAuth) throw new Error(errorAuth.message)
             if (!auth.user) throw new Error('Failed to create auth user')
 
-            // 2. Simpan data user di public.users
             const newUser = await UserService.createUser({
-                id: auth.user.id,  // Gunakan ID dari auth.user
+                id: auth.user.id,  
                 email: data.email,
                 first_name: data.first_name,
                 middle_name: data.middle_name,

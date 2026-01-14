@@ -46,6 +46,21 @@
     object-fit: cover;
 }
 
+label {
+    margin: 5px 0;
+    display: block;
+    width: 100%;
+}
+
+input {
+    outline: none;
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    border-radius: 4px;   
+    display: block;
+    width: 100%;
+}
+
 button[type="submit"] {
     background-color: #000000;
     color: #FFFFFF;
@@ -81,13 +96,7 @@ button[type="submit"]:hover {
     background-color: #FAFAFA;
 }
 
-
-
-
-
-
-
-
+/* Responsive */
 @media (max-width: 576px) {
   .root {
     display: flex;
