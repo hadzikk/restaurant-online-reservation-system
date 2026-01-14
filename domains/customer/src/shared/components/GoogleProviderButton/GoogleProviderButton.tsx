@@ -11,7 +11,7 @@ const signIn = async () => {
     await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-            redirectTo: `${window.location.origin}/menu`
+            redirectTo: window.location.origin
         }
     })
 }
