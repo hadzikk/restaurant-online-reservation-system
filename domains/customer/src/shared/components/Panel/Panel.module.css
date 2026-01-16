@@ -1,0 +1,44 @@
+.root {
+    position: fixed;
+    top: 40px;
+    right: 20px;
+    width: 400px;
+    height: fit-content;
+    background-color: #FFFFFF;
+    z-index: 10;
+    border: 1px solid #EEEEEE;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.about {
+    width: 100%;
+    height: fit-content;
+    padding: 5px 10px;
+}
+
+.email {
+    font-size: small;
+}
+
+.action {
+    width: fit-content;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: gray;
+    font-size: small;
+    margin: 4px;
+    border-radius: 4px;
+    text-transform: capitalize;
+}
+
+.action:hover {
+    text-decoration: underline;
+    color: #000000;
+}

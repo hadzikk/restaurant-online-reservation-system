@@ -51,3 +51,15 @@ input {
     display: block;
     width: 100%;
 }
+
+.link {
+    width: 100%;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #000000;
+    font-size: small;
+    border-radius: 4px;
+}

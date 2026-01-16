@@ -65,6 +65,36 @@ const AuthContextProvider = ({ children }: Props) => {
         }
     }
 
+    const signInWithGoogle = async () => {
+        try {
+            setLoading(true)
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin
+                }
+            })
+            if (error) {
+                setLoading(false)
+                throw new Error(error.message)
+            }
+        } catch (error) {
+            setLoading(false)
+            throw error
+        }
+    }
+
+    const logout = async () => {
+        try {
+            const { error } = await supabase.auth.signOut()
+            if (error) throw new Error(error.message)
+            setSession(null)
+        } catch (error) {
+            console.error('Logout error:', error)
+            throw error
+        }
+    }
+
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session)
@@ -79,7 +109,7 @@ const AuthContextProvider = ({ children }: Props) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ session, register, login, user, loading }}>
+        <AuthContext.Provider value={{ session, register, login, user, loading, signInWithGoogle, logout }}>
             {children}
         </AuthContext.Provider>
     )

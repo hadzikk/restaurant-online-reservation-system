@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { useCart } from '../../hooks'
 import { formatToRupiah } from '../../../../shared/utils'
+import toast from 'react-hot-toast'
 import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
+import { Logo } from '../../../../shared/components'
 
 const Cart = () => {
     const { cart, orderedTables, orderedMenus, total, error, loading } = useCart()
     const [isOpen, setIsOpen] = useState(true)
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
+
     const toggleCart = () => {
         const cartElement = document.querySelector(`.${styles.cart}`)
         if (cartElement) {
@@ -22,21 +31,46 @@ const Cart = () => {
         return <div className={styles.root}><CartSkeleton/></div>
     }
 
-    if (error) {
-        return <div>Error: {error}</div>
+    if (cart[0]?.order_menu_lines) {
+        return (
+            <div 
+                className={`${styles.root} ${isOpen ? styles.open : ''}`}
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) toggleCart()
+                }}
+            >
+                <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
+                    <div className={styles.content + ' ' + styles.extended}>
+                        <Logo/>
+                        <p>Bill is empty now, add food or table here.</p>
+                    </div>
+                </aside>
+            </div>
+        )
     }
 
-    if (cart.length === 0) {
-        return <div>Your cart is empty</div>
+    if (error) {
+        return (
+            <div 
+                className={`${styles.root} ${isOpen ? styles.open : ''}`}
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) toggleCart()
+                }}
+            >
+                <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
+                    <div className={styles.content}>
+                        <CartSkeleton/>
+                    </div>
+                </aside>
+            </div>
+        )
     }
 
     return (
         <div 
             className={`${styles.root} ${isOpen ? styles.open : ''}`}
             onClick={(e) => {
-                if (e.target === e.currentTarget) {
-                    toggleCart()
-                }
+                if (e.target === e.currentTarget) toggleCart()
             }}
         >
             <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>

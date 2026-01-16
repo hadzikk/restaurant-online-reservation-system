@@ -44,6 +44,19 @@
     overflow-y: auto;
 }
 
+.extended {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    align-items: center;
+    gap: 10px;
+}
+
+.extended p {
+    font-size: small;
+}
+
 .title {
     text-align: center;
     text-transform: capitalize;

@@ -15,5 +15,5 @@ export type Cart = {
     id: number
     user_id: number
     total: number
-    order_menus: OrderedMenu[]
+    order_menu_lines: OrderedMenu[]
 }

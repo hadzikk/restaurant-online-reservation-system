@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Logo, Navbar } from '../../shared/components'
+import { Logo, Navbar } from '../../shared/components'
 import styles from './LandingPage.module.css'
 
 const LandingPage = () => {
@@ -122,13 +122,7 @@ useEffect(() => {
                 </section>
                 <section  ref={callToActionRef} className={styles.callToAction}>
                     <div className={styles.wrapper}>
-                        <Link to="/register" style={{ textDecoration: 'none' }}>
-                            <Button
-                                text="Get started"
-                                size="medium"
-                                type="button"
-                            />
-                        </Link>
+                        <a href="/register" className={styles.link}>Get started</a>
                     </div>
                 </section>
             </main>

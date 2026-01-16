@@ -9,9 +9,7 @@ export const GuestRoute = ({ children }: { children: Props }) => {
 
   if (loading) return null
 
-  if (session) {
-    return <Navigate to="/menu" replace />
-  }
+  if (session) return <Navigate to="/menu" replace />
 
   return children
 }
@@ -21,9 +19,7 @@ export const ProtectedRoute = ({ children }: { children: Props }) => {
 
   if (loading) return null
 
-  if (!session) {
-    return <Navigate to="/login" replace />
-  }
+  if (!session) return <Navigate to="/login" replace />
 
   return children
 }

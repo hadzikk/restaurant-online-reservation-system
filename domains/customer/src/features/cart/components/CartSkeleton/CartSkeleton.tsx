@@ -9,7 +9,7 @@ interface CartSkeletonProps {
 const CartSkeleton: React.FC<CartSkeletonProps> = ({ className = '' }) => {
     return (
         <div className={`${styles.root} ${className}`.trim()}>
-            <div className={styles.skeletonTitle}></div>
+            <div className={styles.skeletonTitle}>Cart</div>
             <div className={styles.skeletonTitle}></div>
             <div className={styles.skeletonTable}></div>
             <div className={styles.skeletonTitle}></div>

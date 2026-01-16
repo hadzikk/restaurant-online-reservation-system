@@ -19,4 +19,6 @@ export type AuthContextType = {
             password: string
         }
     ) => Promise<void>
+    signInWithGoogle: () => Promise<void>
+    logout: () => Promise<void>
 }

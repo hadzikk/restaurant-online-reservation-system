@@ -2,10 +2,21 @@ import React, { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../shared/hooks'
 import toast from 'react-hot-toast'
-import { Divider, GoogleProviderButton, SpotifyProviderButton, Button, Input, Logo } from '../../shared/components'
+import { Divider, GoogleProviderButton, Logo } from '../../shared/components'
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
+    // TODO
+    // patching
+    // 1. Refactor the logic (DRY) loading is already exist in a AuthContext
+    // 2. We do not have handler when it's offline, so maybe the toast popup isn't appropriate
+
+    // feature
+    // 1. Create UI component for user logout
+
+    // page
+    // 1. Create page for customer profile, so they can manage their account and se their histories
+
     const { session, login } = useAuth()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
@@ -74,9 +85,7 @@ const LoginPage = () => {
                 <Divider/>
 
                 {/* Create an account traditionally */}
-                <Link to="/register">
-                    <Button text={'Create an account'} type="button"/>
-                </Link>
+                <a href="/register" className={styles.link}>Create an account</a>
             </div>
         </main>
     )

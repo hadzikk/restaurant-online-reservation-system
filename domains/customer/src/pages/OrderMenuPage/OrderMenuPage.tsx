@@ -1,36 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { MenuService } from '../../features/menu/api'
-import type { Menu } from '../../features/menu/types'
 import { MenuSkeletonLoader, MenuList } from '../../features/menu/components'
 import { Cart } from '../../features/cart/components'
+import { Navbar, Panel } from '../../shared/components'
 import styles from './OrderMenuPage.module.css'
-import { useAuth } from '../../shared/hooks'
-import { Navbar } from '../../shared/components'
-
-type Props = {
-    Menu: Menu[]
-}
+import { useMenu } from '../../features/menu/hooks/useMenu'
 
 const OrderMenuPage = () => {
-    const [menus, setMenus] = useState<Menu[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | null>(null)
-    const { session } = useAuth()
-
-    useEffect(() => {
-    const fetchMenus = async () => {
-      try {
-        const response = await MenuService.getAllMenus()
-        setMenus(response)
-      } catch (err) {
-        setError('Unexpected error')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchMenus()
-  }, [])
+  // Logic is stored in custom hook
+  const { menus, isLoading, error } = useMenu()
 
   if (isLoading) {
     return (
@@ -45,7 +21,7 @@ const OrderMenuPage = () => {
       <>
         <Navbar />
         <main className={styles.root}>
-          <div className={styles.error}>{error}</div>
+          <Cart />
         </main>
       </>
     )
@@ -54,6 +30,7 @@ const OrderMenuPage = () => {
   return (
     <>
       <Navbar />
+      <Panel />
       <main className={styles.root}>
         <MenuList menus={menus} />
         <Cart />

@@ -6,7 +6,7 @@ import { Divider, GoogleProviderButton, Logo } from '../../shared/components'
 import styles from './RegisterPage.module.css'
 
 const RegisterPage = () => {
-    const { session, register } = useAuth()
+    const { register, loading } = useAuth()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
