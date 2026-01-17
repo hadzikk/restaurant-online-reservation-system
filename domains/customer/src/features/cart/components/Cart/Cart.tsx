@@ -4,45 +4,46 @@ import { formatToRupiah } from '../../../../shared/utils'
 import toast from 'react-hot-toast'
 import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
-import { Logo } from '../../../../shared/components'
+
+// Todo
+// 1. Create handler when customer not add menu yet
+// 2. You may create UI to represent cart is empty
 
 const Cart = () => {
     const { cart, orderedTables, orderedMenus, total, error, loading } = useCart()
     const [isOpen, setIsOpen] = useState(true)
 
+    // error handler notification
     useEffect(() => {
         if (error) {
             toast.error(error)
         }
     }, [error])
 
-    const toggleCart = () => {
-        const cartElement = document.querySelector(`.${styles.cart}`)
-        if (cartElement) {
-            cartElement.classList.remove(styles.slide)
-        }
+    const handleToggleCart = (e) => {
+        if (e.target === e.currentTarget) {
+            const cartElement = document.querySelector(`.${styles.cart}`)
+            if (cartElement) cartElement.classList.remove(styles.slide)
 
-        setTimeout(() => {
-            setIsOpen(false)
-        }, 300)
+            setTimeout(() => {
+                setIsOpen(false)
+            }, 300)
+        }
     }
 
     if (loading) { 
         return <div className={styles.root}><CartSkeleton/></div>
     }
 
-    if (cart[0]?.order_menu_lines) {
+    if (cart[0]?.order_menu_lines.length < 1) {
         return (
             <div 
                 className={`${styles.root} ${isOpen ? styles.open : ''}`}
-                onClick={(e) => {
-                    if (e.target === e.currentTarget) toggleCart()
-                }}
+                onClick={handleToggleCart}
             >
                 <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
-                    <div className={styles.content + ' ' + styles.extended}>
-                        <Logo/>
-                        <p>Bill is empty now, add food or table here.</p>
+                    <div className={styles.content}>
+                        Buy Something First Ok
                     </div>
                 </aside>
             </div>
@@ -53,9 +54,7 @@ const Cart = () => {
         return (
             <div 
                 className={`${styles.root} ${isOpen ? styles.open : ''}`}
-                onClick={(e) => {
-                    if (e.target === e.currentTarget) toggleCart()
-                }}
+                onClick={handleToggleCart}
             >
                 <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
                     <div className={styles.content}>
@@ -69,9 +68,7 @@ const Cart = () => {
     return (
         <div 
             className={`${styles.root} ${isOpen ? styles.open : ''}`}
-            onClick={(e) => {
-                if (e.target === e.currentTarget) toggleCart()
-            }}
+            onClick={handleToggleCart}
         >
             <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
                 <div className={styles.content}>
@@ -90,11 +87,7 @@ const Cart = () => {
                 <div className={styles.controls}>
                     <button 
                         className={styles.control}
-                        onClick={(e) => {
-                            if (e.target === e.currentTarget) {
-                                toggleCart()
-                            }
-                        }}
+                        onClick={handleToggleCart}
                     >
                         close
                     </button>

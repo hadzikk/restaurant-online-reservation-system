@@ -59,6 +59,16 @@
 
 .title {
     text-align: center;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 0 0 10px 0;
+    margin: 30px 0 5px 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.subtitle {
+    font-size: small;
+    font-weight: 500;
     text-transform: capitalize;
     padding: 0 0 10px 0;
     margin: 30px 0 5px 0;

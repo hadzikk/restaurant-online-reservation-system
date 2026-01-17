@@ -1,19 +1,46 @@
 // useCart.tsx
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { supabase } from '../../../shared/api/supabase'
-import { OrderService } from '../api'
+import { OrderMenuLineService, OrderService } from '../api'
 import { useAuth } from '../../../shared/hooks'
 import type { Cart, OrderedTable, OrderedMenu } from '../types'
+
+// Todo
+// 1. Refactor code
 
 const useCart = () => {
     const [cart, setCart] = useState<Cart[]>([])
     const [orderedTables, setOrderedTables] = useState<OrderedTable[]>([])
     const [orderedMenus, setOrderedMenus] = useState<OrderedMenu[]>([])
     const [error, setError] = useState<string | null>(null)
-    const [loading, setIsLoading] = useState(true)
-    const [isUpdatingTotal, setIsUpdatingTotal] = useState(false)
+    const [loading, setLoading] = useState(true)
     const { session } = useAuth()
 
+    // menu list func
+    const addMenuLine = async (menu_id: number, menu_name: string, unit_price: number, quantity: number) => {
+        const orderId = cart[0].id
+        try {            
+            const { data, error } = await supabase
+            .from('order_menu_lines')
+            .upsert({
+                order_id: orderId,
+                menu_id: menu_id,
+                menu_name: menu_name,
+                unit_price: unit_price,
+                quantity: quantity
+            }, {
+                ignoreDuplicates: false,
+                onConflict: 'menu_id'
+            })
+            .select()
+            if (data) setOrderedMenus(data)
+            if (error) throw error
+        } catch (error) {
+            throw error
+        }
+    }
+
+    // increasing performance by memoize calculation of total
     const total = useMemo(() => {
         return orderedMenus.reduce((sum, item) => {
             return sum + (item.quantity * item.unit_price)
@@ -21,43 +48,43 @@ const useCart = () => {
     }, [orderedMenus])
 
     const updateOrderTotal = useCallback(async () => {
-        if (!cart[0]?.id || isUpdatingTotal) return
+        if (!cart[0]?.id || loading) return
 
         try {
-            setIsUpdatingTotal(true)
             await OrderService.updateOrderTotal(cart[0].id, total)
         } catch (error) {
             console.error('Failed to update order total:', error)
         } finally {
-            setIsUpdatingTotal(false)
+            setLoading(false)
         }
-    }, [cart[0]?.id, total, isUpdatingTotal])
+    }, [cart[0]?.id, total, loading])
 
+    // If the cart id exist and the cart total is changes then update
     useEffect(() => {
-        if (cart[0]?.id && cart[0]?.total !== total) {
-            updateOrderTotal()
-        }
+        if (cart[0]?.id && cart[0]?.total !== total) updateOrderTotal() // call update func
     }, [total, cart[0]?.id, updateOrderTotal])
 
+    // read data
     const fetchCart = async () => {
         try {
-            const response = await OrderService.getOrderById(session.user.id)
-            if (response && response.length > 0) {
-                setCart(response)
-                setOrderedTables(response[0].order_table_lines || [])
-                setOrderedMenus(response[0].order_menu_lines || [])
+            const order = await OrderService.getOrderById(session.user.id)
+            // if success
+            if (order && order.length > 0) {
+                // then setup state value
+                setCart(order)
+                setOrderedTables(order[0].order_table_lines || [])
+                setOrderedMenus(order[0].order_menu_lines || [])
             } else {
                 throw new Error('No cart data received')
             }
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to fetch cart'
-            console.error('Fetching cart failed:', errorMessage)
-            setError('Failed to load cart. Please try again later.')
+        } catch (error) {
+            setError(error.message)
         } finally {
-            setIsLoading(false)
+            setLoading(false)
         }
     }
 
+    // real time
     useEffect(() => {
         if (!session.user.id) return
 
@@ -118,7 +145,8 @@ const useCart = () => {
         total,
         error,
         loading,
-        refetch: fetchCart
+        refetch: fetchCart,
+        addMenuLine
     }
 }
 

@@ -8,7 +8,9 @@ export type OrderedMenu = {
 
 export type OrderedTable = {
     id: number
-    table_code: string
+    order_id: number
+    table_id: number
+    table_code: number
 }
 
 export type Cart = {
@@ -16,4 +18,6 @@ export type Cart = {
     user_id: number
     total: number
     order_menu_lines: OrderedMenu[]
+    order_table_lines: OrderedTable[]
 }
+
