@@ -1,4 +1,3 @@
-// useCart.tsx
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { supabase } from '../../../shared/api/supabase'
 import { OrderMenuLineService, OrderService } from '../api'
@@ -6,15 +5,82 @@ import { useAuth } from '../../../shared/hooks'
 import type { Cart, OrderedTable, OrderedMenu } from '../types'
 
 const useCart = () => {
-    const [cart, setCart] = useState<Cart[]>([])
+    const [order, setOrder] = useState<Cart[]>([])
     const [orderedTables, setOrderedTables] = useState<OrderedTable[]>([])
-    const [orderedMenus, setOrderedMenus] = useState<OrderedMenu[]>([])
+    const [orderMenuLines, setOrderMenuLines] = useState<OrderedMenu[]>([])
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
     const { session } = useAuth()
+
+    // real time
+    // order
+    useEffect(() => {
+        const userId = session.user.id
+        const fetchOrder = async () => {
+            try {
+                const order = await OrderService.getOrderById(userId)
+                if (!order) throw error
+                setOrder(order)
+            } catch (error) {
+                throw error
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchOrder()
+        const ordersChannel = supabase
+            .channel('orders-channel')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'orders', filter: `user_id=eq.${userId}` },
+                () => {
+                    fetchOrder().catch(console.error)
+                }
+            )
+            .subscribe()
+        return () => {
+            supabase.removeChannel(ordersChannel)
+        }
+    }, [session?.user?.id])
+
+    // order menu line
+    const orderId = order[0]?.id
+    useEffect(() => {
+        if (!orderId) return
+        const fetchOrderMenuLine = async () => {
+            try {
+                const orderMenuLine = await OrderMenuLineService.getOrderMenuLinesById(orderId)
+                if (!orderMenuLine) throw error
+                setOrderMenuLines(orderMenuLine)
+            } catch (error) {
+                throw error
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchOrderMenuLine()
+        const orderMenuLinesChannel = supabase
+    .channel('order-menu-lines')
+    .on(
+        'postgres_changes',
+        {
+            event: '*',
+            schema: 'public',
+            table: 'order_menu_lines',
+            
+        },
+        () => {
+            fetchOrderMenuLine().catch(console.error)
+        }
+    )
+    .subscribe()
+        return () => {
+            supabase.removeChannel(orderMenuLinesChannel)
+        }
+    }, [orderId])
     
     const addMenuLine = async (menu_id: number, menu_name: string, unit_price: number, quantity: number) => {
-        const orderId = cart[0].id
+        const orderId = order[0].id
         try {
             const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_name, unit_price, quantity)
             if (!addMenuLineAndUpdate) throw error
@@ -28,11 +94,6 @@ const useCart = () => {
         try {
             const { error } = await OrderMenuLineService.updateMenuLine(id, quantity)
             if (error) throw error
-             setOrderedMenus(prevMenus => 
-            prevMenus.map(menu => 
-                menu.id === id ? { ...menu, quantity } : menu
-            )
-        )
         } catch (error) {
             throw error
         }
@@ -49,110 +110,30 @@ const useCart = () => {
 
     // increasing performance by memoize calculation of total
     const total = useMemo(() => {
-        return orderedMenus.reduce((sum, item) => {
+        return orderMenuLines.reduce((sum, item) => {
             return sum + (item.quantity * item.unit_price)
         }, 0)
-    }, [orderedMenus])
+    }, [orderMenuLines])
 
     const updateOrderTotal = useCallback(async () => {
-        if (!cart[0]?.id || loading) return
+        if (!order[0]?.id || loading) return
 
         try {
-            await OrderService.updateOrderTotal(cart[0].id, total)
+            await OrderService.updateOrderTotal(order[0].id, total)
         } catch (error) {
             console.error('Failed to update order total:', error)
         } finally {
             setLoading(false)
         }
-    }, [cart[0]?.id, total, loading])
-
-    // If the cart id exist and the cart total is changes then update
-    useEffect(() => {
-        if (cart[0]?.id && cart[0]?.total !== total) updateOrderTotal() // call update func
-    }, [total, cart[0]?.id, updateOrderTotal])
-
-    // read data
-    const fetchCart = async () => {
-        try {
-            const order = await OrderService.getOrderById(session.user.id)
-            // if success
-            if (order && order.length > 0) {
-                // then setup state value
-                setCart(order)
-                setOrderedTables(order[0].order_table_lines || [])
-                setOrderedMenus(order[0].order_menu_lines || [])
-            } else {
-                throw new Error('No cart data received')
-            }
-        } catch (error) {
-            setError(error.message)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    // real time
-    useEffect(() => {
-        if (!session.user.id) return
-
-        fetchCart()
-
-        const menuLinesChannel = supabase
-            .channel('order_menu_lines_changes')
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'order_menu_lines',
-                    filter: `order_id=eq.${cart[0]?.id || ''}` 
-                },
-                (payload) => {
-                    console.log('Menu lines change received!', payload)
-                    fetchCart()
-                }
-            )
-            .subscribe()
-
-        const ordersChannel = supabase
-            .channel('orders_changes')
-            .on(
-                'postgres_changes',
-                {
-                    event: 'UPDATE',
-                    schema: 'public',
-                    table: 'orders',
-                    filter: `id=eq.${cart[0]?.id || ''}`
-                },
-                (payload) => {
-                    console.log('Order update received:', payload)
-                    setCart(prev => {
-                        if (prev.length > 0) {
-                            return [{
-                                ...prev[0],
-                                ...payload.new
-                            }]
-                        }
-                        return prev
-                    })
-                }
-            )
-            .subscribe()
-
-        return () => {
-            supabase.removeChannel(menuLinesChannel)
-            supabase.removeChannel(ordersChannel)
-        }
-    }, [session.user.id, cart[0]?.id])
+    }, [order[0]?.id, total, loading])
 
     return {
-        cart,
+        order,
         orderedTables,
-        orderedMenus,
+        orderMenuLines,
         total,
         error,
         loading,
-        refetch: fetchCart,
         addMenuLine,
         removeMenuLine,
         updateMenuLineQuantity

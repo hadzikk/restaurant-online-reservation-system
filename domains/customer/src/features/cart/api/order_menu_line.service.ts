@@ -1,6 +1,15 @@
 import { supabase } from  '../../../shared/api/supabase'
 
 const OrderMenuLineService = {
+    async getOrderMenuLinesById(order_id: number) {
+        let { data: orderMenuLines, error } = await supabase
+            .from('order_menu_lines')
+            .select('*')
+            .eq('order_id', order_id)
+            .order('created_at')
+        if (error) throw error
+        return orderMenuLines
+    },
     async updateAndInsertMenuLine(order_id: number, menu_id: number, menu_name: string, unit_price: number, quantity: number) {
         const { data: createdMenuLine, error } = await supabase
             .from('order_menu_lines')

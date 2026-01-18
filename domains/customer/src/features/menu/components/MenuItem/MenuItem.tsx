@@ -12,8 +12,8 @@ interface MenuItemsProps {
 }
 
 const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
-    const { orderedMenus, addMenuLine } = useCart()
-    const isInCart = orderedMenus.some(item => item.menu_id === menu.id)
+    const { orderMenuLines, addMenuLine } = useCart()
+    const isInCart = orderMenuLines.some(item => item.menu_id === menu.id)
 
     const handleAddMenu = async () => {
         if (isInCart) return

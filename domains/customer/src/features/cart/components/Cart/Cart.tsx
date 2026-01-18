@@ -6,7 +6,7 @@ import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
 
 const Cart = () => {
-    const { cart, orderedTables, orderedMenus, total, error, loading } = useCart()
+    const { order, orderedTables, orderMenuLines, total, error, loading } = useCart()
     const [isOpen, setIsOpen] = useState(true)
 
     // error handler notification
@@ -31,7 +31,7 @@ const Cart = () => {
         return <div className={styles.root}><CartSkeleton/></div>
     }
 
-    if (cart[0]?.order_menu_lines.length < 1) {
+    if (order[0]?.order_menu_lines.length < 1) {
         return (
             <div 
                 className={`${styles.root} ${isOpen ? styles.open : ''}`}
@@ -54,7 +54,7 @@ const Cart = () => {
             >
                 <aside className={`${styles.cart} ${isOpen ? styles.slide : ''}`}>
                     <div className={styles.content}>
-                        <CartSkeleton/>
+                        {error}
                     </div>
                 </aside>
             </div>
@@ -75,7 +75,7 @@ const Cart = () => {
                     />
                     <p className={styles.title}>menus</p>
                     <OrderMenuList 
-                        ordered_menus={orderedMenus} 
+                        ordered_menus={orderMenuLines} 
                     />
                     <p className={styles.title}>total</p>
                     <span className={styles.total}>{formatToRupiah(total)}</span>
