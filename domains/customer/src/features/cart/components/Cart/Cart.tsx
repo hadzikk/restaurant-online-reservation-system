@@ -5,10 +5,6 @@ import toast from 'react-hot-toast'
 import { CartSkeleton, OrderMenuList, OrderTableList } from '../../components'
 import styles from './Cart.module.css'
 
-// Todo
-// 1. Create handler when customer not add menu yet
-// 2. You may create UI to represent cart is empty
-
 const Cart = () => {
     const { cart, orderedTables, orderedMenus, total, error, loading } = useCart()
     const [isOpen, setIsOpen] = useState(true)

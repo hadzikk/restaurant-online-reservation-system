@@ -5,9 +5,6 @@ import { OrderMenuLineService, OrderService } from '../api'
 import { useAuth } from '../../../shared/hooks'
 import type { Cart, OrderedTable, OrderedMenu } from '../types'
 
-// Todo
-// 1. Refactor code
-
 const useCart = () => {
     const [cart, setCart] = useState<Cart[]>([])
     const [orderedTables, setOrderedTables] = useState<OrderedTable[]>([])
@@ -15,26 +12,36 @@ const useCart = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
     const { session } = useAuth()
-
-    // menu list func
+    
     const addMenuLine = async (menu_id: number, menu_name: string, unit_price: number, quantity: number) => {
         const orderId = cart[0].id
-        try {            
-            const { data, error } = await supabase
-            .from('order_menu_lines')
-            .upsert({
-                order_id: orderId,
-                menu_id: menu_id,
-                menu_name: menu_name,
-                unit_price: unit_price,
-                quantity: quantity
-            }, {
-                ignoreDuplicates: false,
-                onConflict: 'menu_id'
-            })
-            .select()
-            if (data) setOrderedMenus(data)
+        try {
+            const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_name, unit_price, quantity)
+            if (!addMenuLineAndUpdate) throw error
+        } catch (error) {
+            throw error
+        }
+    }
+
+    // func to update menu line quantity
+    const updateMenuLineQuantity = async (id: number, quantity: number) => {
+        try {
+            const { error } = await OrderMenuLineService.updateMenuLine(id, quantity)
             if (error) throw error
+             setOrderedMenus(prevMenus => 
+            prevMenus.map(menu => 
+                menu.id === id ? { ...menu, quantity } : menu
+            )
+        )
+        } catch (error) {
+            throw error
+        }
+    }
+
+    // func to remove menu line
+    const removeMenuLine = async (id: number) => {
+        try {
+            await OrderMenuLineService.deleteMenuLine(id)
         } catch (error) {
             throw error
         }
@@ -146,7 +153,9 @@ const useCart = () => {
         error,
         loading,
         refetch: fetchCart,
-        addMenuLine
+        addMenuLine,
+        removeMenuLine,
+        updateMenuLineQuantity
     }
 }
 

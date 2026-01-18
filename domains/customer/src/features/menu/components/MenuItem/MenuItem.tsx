@@ -15,12 +15,11 @@ const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
     const { orderedMenus, addMenuLine } = useCart()
     const isInCart = orderedMenus.some(item => item.menu_id === menu.id)
 
-    const handleButton = async () => {
+    const handleAddMenu = async () => {
         if (isInCart) return
         try {
-            const response = await addMenuLine(menu.id, menu.name, menu.price, 1)
-            console.log(orderedMenus)
-            toast.success('Fetched data successfully!')
+            await addMenuLine(menu.id, menu.name, menu.price, 1)
+            toast.success('Menu added to cart successfully!')
         } catch (error) {
             toast.error(error)
         }
@@ -51,7 +50,7 @@ const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
                 ) : (
                 <button 
                     className={styles.button}
-                    onClick={handleButton}
+                    onClick={handleAddMenu}
                     disabled={isInCart}
                 >
                     Add

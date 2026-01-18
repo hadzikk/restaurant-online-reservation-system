@@ -1,33 +1,35 @@
 import React, { type FC, useEffect, useState } from 'react'
-import { OrderService } from '../../api'
 import type { OrderedMenu } from '../../types'
 import { formatToRupiah } from '../../../../shared/utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import styles from './OrderMenuItem.module.css'
+import { useCart } from '../../hooks'
+import toast from 'react-hot-toast'
 
-interface OrderMenuItemProps {
+interface Props {
     ordered_menu: OrderedMenu
 }
 
-const OrderMenuItem: FC<OrderMenuItemProps> = ({ ordered_menu }) => {
-    const [quantity, setQuantity] = useState(ordered_menu.quantity)
-    const handleIncrease = async () => {
+const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
+    const { removeMenuLine, updateMenuLineQuantity } = useCart()
+
+    const handleRemoveMenuLine = async () => {
         try {
-            const newQuantity = quantity + 1
-            await OrderService.updateMenuLineQuantity(ordered_menu.id, newQuantity)
-            setQuantity(newQuantity)
+            await removeMenuLine(ordered_menu.id)
+            toast.success('Menu removed')
         } catch (error) {
-            console.error('Failed to update quantity:', error)
+            toast.error('Failed to remove menu line')
+            console.log(error)
         }
     }
-    const handleDecrease = async () => {
+
+    const handleUpdateMenuLineQuantity = async (id: number, quantity: number) => {
         try {
-            const newQuantity = quantity - 1
-            await OrderService.updateMenuLineQuantity(ordered_menu.id, newQuantity)
-            setQuantity(newQuantity)
+            await updateMenuLineQuantity(id, quantity)
+            toast.success('Quantity updated.')
         } catch (error) {
-            console.error('Failed to update quantity:', error)
+            toast.error('Failed to update quantity')
         }
     }
 
@@ -36,14 +38,14 @@ const OrderMenuItem: FC<OrderMenuItemProps> = ({ ordered_menu }) => {
             <div className={styles.food}>
                 <p className={styles.name}>{ordered_menu.menu_name}</p>
                 <p className={styles.price}>{formatToRupiah(ordered_menu.unit_price)}</p>
-                <button className={styles.remove}>remove</button>
+                <button className={styles.remove} onClick={handleRemoveMenuLine}>remove</button>
             </div>
 
             <div className={styles.buttons}>
                 <div className={styles.controls}>
                     <button 
                         className={styles.control}
-                        onClick={handleDecrease}
+                        onClick={() => handleUpdateMenuLineQuantity(ordered_menu.id, (ordered_menu.quantity - 1))}
                     >
                         <FontAwesomeIcon icon={faMinus} />
                     </button>
@@ -52,7 +54,7 @@ const OrderMenuItem: FC<OrderMenuItemProps> = ({ ordered_menu }) => {
                     </span>
                     <button 
                         className={styles.control}
-                        onClick={handleIncrease}
+                        onClick={() => handleUpdateMenuLineQuantity(ordered_menu.id, (ordered_menu.quantity + 1))}
                     >
                         <FontAwesomeIcon icon={faPlus} />
                     </button>

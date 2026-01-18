@@ -1,6 +1,6 @@
-import { supabase } from  '../../../shared/api/supabase'
+import { supabase } from  '../api/supabase'
 
-const OrderService = {
+export const OrderService = {
     // #1
     async getOrderById(id: string) {
         try {
@@ -58,5 +58,3 @@ const OrderService = {
         return updatedOrderTotal
     }
 }
-
-export default OrderService
