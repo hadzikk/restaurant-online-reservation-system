@@ -46,6 +46,7 @@ const OrderMenuLineService = {
             .from('order_menu_lines')
             .delete()
             .eq('id', id)
+            .select()
         if (error) throw error
     }
 }

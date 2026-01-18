@@ -127,6 +127,18 @@ const useCart = () => {
         }
     }, [order[0]?.id, total, loading])
 
+    const updateOrderMenuLines = useCallback(async () => {
+        if (!order[0]?.id || loading) return
+
+        try {
+            await OrderMenuLineService.getOrderMenuLinesById(order[0].id)
+        } catch (error) {
+            console.error('Failed to update order total:', error)
+        } finally {
+            setLoading(false)
+        }
+    }, [order[0]?.id, total, loading])
+
     return {
         order,
         orderedTables,
