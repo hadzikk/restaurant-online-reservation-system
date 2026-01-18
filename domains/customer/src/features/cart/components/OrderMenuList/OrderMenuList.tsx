@@ -2,15 +2,14 @@ import React, { type FC } from 'react'
 import type { OrderedMenu } from '../../types'
 import { OrderMenuItem } from '../../components'
 import styles from './OrderMenuList.module.css'
+import { useCart } from '../../hooks'
 
-interface OrderMenuListProps {
-    ordered_menus: OrderedMenu[]
-}
+const OrderMenuList = () => {
+    const { orderMenuLines } = useCart()
 
-const OrderMenuList: FC<OrderMenuListProps> = ({ ordered_menus }) => {
     return (
         <div className={styles.root}>
-            {ordered_menus.map((ordered_menu) => (
+            {orderMenuLines.map((ordered_menu) => (
                 <OrderMenuItem
                     key={ordered_menu.id}
                     ordered_menu={ordered_menu}

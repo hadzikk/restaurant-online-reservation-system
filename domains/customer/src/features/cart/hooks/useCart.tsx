@@ -11,6 +11,7 @@ const useCart = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
     const { session } = useAuth()
+    const orderId = order[0]?.id
 
     // real time
     // order
@@ -44,7 +45,6 @@ const useCart = () => {
     }, [session?.user?.id])
 
     // order menu line
-    const orderId = order[0]?.id
     useEffect(() => {
         if (!orderId) return
         const fetchOrderMenuLine = async () => {
@@ -80,7 +80,6 @@ const useCart = () => {
     }, [orderId])
     
     const addMenuLine = async (menu_id: number, menu_name: string, unit_price: number, quantity: number) => {
-        const orderId = order[0].id
         try {
             const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_name, unit_price, quantity)
             if (!addMenuLineAndUpdate) throw error
@@ -103,6 +102,7 @@ const useCart = () => {
     const removeMenuLine = async (id: number) => {
         try {
             await OrderMenuLineService.deleteMenuLine(id)
+            setOrderMenuLines(prev => prev.filter(item => item.id !== id))
         } catch (error) {
             throw error
         }
@@ -127,17 +127,23 @@ const useCart = () => {
         }
     }, [order[0]?.id, total, loading])
 
-    const updateOrderMenuLines = useCallback(async () => {
-        if (!order[0]?.id || loading) return
-
-        try {
-            await OrderMenuLineService.getOrderMenuLinesById(order[0].id)
-        } catch (error) {
-            console.error('Failed to update order total:', error)
-        } finally {
-            setLoading(false)
+    useEffect(() => {
+    // Memastikan state orderMenuLines selalu dalam sinkronisasi
+    // dengan data terbaru dari database
+    if (orderId) {
+        const fetchOrderMenuLine = async () => {
+            try {
+                const orderMenuLine = await OrderMenuLineService.getOrderMenuLinesById(orderId)
+                if (orderMenuLine) {
+                    setOrderMenuLines(orderMenuLine)
+                }
+            } catch (error) {
+                console.error('Error fetching order menu lines:', error)
+            }
         }
-    }, [order[0]?.id, total, loading])
+        fetchOrderMenuLine()
+    }
+}, [orderMenuLines, orderId])
 
     return {
         order,
