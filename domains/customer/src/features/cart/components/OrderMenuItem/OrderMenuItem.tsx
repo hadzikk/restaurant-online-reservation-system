@@ -26,10 +26,15 @@ const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
 
     const handleUpdateMenuLineQuantity = async (id: number, quantity: number) => {
         try {
-            await updateMenuLineQuantity(id, quantity)
-            toast.success('Quantity updated.')
+            if (quantity < 1) {
+                await removeMenuLine(id)
+                toast.success('Menu removed')
+            } else {
+                await updateMenuLineQuantity(id, quantity)
+            }
         } catch (error) {
             toast.error('Failed to update quantity')
+            console.error(error)
         }
     }
 
