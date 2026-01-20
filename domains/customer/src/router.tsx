@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { ProtectedRoute, GuestRoute } from './shared/utils'
 import { LandingPage, LoginPage, RegisterPage, OrderMenuPage } from './pages'
+import TablePages from './pages/TablePages/TablePages'
 
 export const router = createBrowserRouter([
     { 
@@ -32,6 +33,14 @@ export const router = createBrowserRouter([
         element: (
         <ProtectedRoute>
             <OrderMenuPage />
+        </ProtectedRoute>
+        ) 
+    },
+    { 
+        path: '/table', 
+        element: (
+        <ProtectedRoute>
+            <TablePages />
         </ProtectedRoute>
         ) 
     }
