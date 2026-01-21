@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { supabase } from '../../../shared/api/supabase'
-import { OrderMenuLineService, OrderService } from '../api'
+import { OrderMenuLineService, OrderService } from '../services'
 import { useAuth } from '../../../shared/hooks'
 import type { Cart, OrderedTable, OrderedMenu } from '../types'
 

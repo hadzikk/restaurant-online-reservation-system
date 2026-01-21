@@ -1,5 +1,5 @@
 import React, { type FC, useEffect, useState } from 'react'
-import type { OrderedMenu } from '../../types'
+import type { OrderMenuLine } from '../../types'
 import { formatToRupiah } from '../../../../shared/utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
@@ -8,7 +8,7 @@ import { useCart } from '../../hooks'
 import toast from 'react-hot-toast'
 
 interface Props {
-    ordered_menu: OrderedMenu
+    ordered_menu: OrderMenuLine
 }
 
 const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
@@ -41,8 +41,8 @@ const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
     return (
         <li className={styles.root}>
             <div className={styles.food}>
-                <p className={styles.name}>{ordered_menu.menu_name}</p>
-                <p className={styles.price}>{formatToRupiah(ordered_menu.unit_price)}</p>
+                <p className={styles.name}>{ordered_menu.menu_id.name}</p>
+                <p className={styles.price}>{formatToRupiah(ordered_menu.snapshot_price)}</p>
                 <button className={styles.remove} onClick={handleRemoveMenuLine}>remove</button>
             </div>
 
@@ -65,7 +65,7 @@ const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
                     </button>
                 </div>
                 <span className={styles.subtotal}>
-                    {formatToRupiah(ordered_menu.quantity * ordered_menu.unit_price)}
+                    {formatToRupiah(ordered_menu.quantity * ordered_menu.snapshot_price)}
                 </span>
             </div>
         </li>
