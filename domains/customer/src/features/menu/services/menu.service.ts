@@ -2,7 +2,7 @@ import { supabase } from  '../../../shared/api/supabase'
 
 const MenuService = {
     async getAllMenus() {
-        let { data: menus, error } = await supabase
+        let { data, error } = await supabase
             .from('menus')
             .select(`
                 *,
@@ -10,7 +10,7 @@ const MenuService = {
             `)
             .order('created_at', { ascending: false })
         if (error) throw new Error(error.message)
-        return menus || []
+        return data || []
     }
 }
 

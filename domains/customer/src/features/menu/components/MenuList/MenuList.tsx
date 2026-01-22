@@ -1,13 +1,11 @@
 import React, { type FC } from 'react'
-import type { Menu } from '../../types'
 import { MenuItem } from '../../components'
 import styles from './MenuList.module.css'
+import { useMenu } from '../../hooks/useMenu'
 
-interface MenuListProps {
-    menus: Menu[]
-}
-
-const MenuList: FC<MenuListProps> = ({ menus }) => {
+const MenuList = () => {
+    const { menus } = useMenu()
+    
     return (
         <div className={styles.root}>
             {menus.map((menu) => (

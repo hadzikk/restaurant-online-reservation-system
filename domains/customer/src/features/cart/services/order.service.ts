@@ -8,8 +8,7 @@ const OrderService = {
                 .from('orders')
                 .select(`
                     *,
-                    order_menu_lines(*),
-                    order_table_lines(*)
+                    order_menu_lines(*)
                 `)
                 .eq('user_id', id)
                 .order('created_at', { ascending: true })

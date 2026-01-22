@@ -1,13 +1,13 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
+import type { Order, OrderMenuLine, OrderTableLine } from '../types'
 import { supabase } from '../../../shared/api/supabase'
 import { OrderMenuLineService, OrderService } from '../services'
 import { useAuth } from '../../../shared/hooks'
-import type { Cart, OrderedTable, OrderedMenu } from '../types'
 
 const useCart = () => {
-    const [order, setOrder] = useState<Cart[]>([])
-    const [orderedTables, setOrderedTables] = useState<OrderedTable[]>([])
-    const [orderMenuLines, setOrderMenuLines] = useState<OrderedMenu[]>([])
+    const [order, setOrder] = useState<Order[]>([])
+    const [orderedTables, setOrderedTables] = useState<OrderTableLine[]>([])
+    const [orderMenuLines, setOrderMenuLines] = useState<OrderMenuLine[]>([])
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
     const { session } = useAuth()
@@ -17,12 +17,14 @@ const useCart = () => {
     // order
     useEffect(() => {
         const userId = session.user.id
+        if (!userId) return
         const fetchOrder = async () => {
             try {
                 const order = await OrderService.getOrderById(userId)
                 if (!order) throw error
                 setOrder(order)
             } catch (error) {
+                setError(error instanceof Error ? error.message : 'An error occurred')
                 throw error
             } finally {
                 setLoading(false)
@@ -79,9 +81,9 @@ const useCart = () => {
         }
     }, [orderId])
     
-    const addMenuLine = async (menu_id: number, menu_name: string, unit_price: number, quantity: number) => {
+    const addMenuLine = async (menu_id: number, menu_price: number, quantity: number) => {
         try {
-            const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_name, unit_price, quantity)
+            const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_price, quantity)
             if (!addMenuLineAndUpdate) throw error
         } catch (error) {
             throw error
@@ -111,7 +113,7 @@ const useCart = () => {
     // increasing performance by memoize calculation of total
     const total = useMemo(() => {
         return orderMenuLines.reduce((sum, item) => {
-            return sum + (item.quantity * item.unit_price)
+            return sum + (item.quantity * item.snapshot_price)
         }, 0)
     }, [orderMenuLines])
 

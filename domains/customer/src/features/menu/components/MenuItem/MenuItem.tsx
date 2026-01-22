@@ -13,12 +13,12 @@ interface MenuItemsProps {
 
 const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
     const { orderMenuLines, addMenuLine } = useCart()
-    const isInCart = orderMenuLines.some(item => item.menu_id === menu.id)
+    const isInCart = orderMenuLines.some(item => item.menu_id.id)
 
     const handleAddMenu = async () => {
         if (isInCart) return
         try {
-            await addMenuLine(menu.id, menu.name, menu.price, 1)
+            await addMenuLine(menu.id, menu.price, 1)
             toast.success('Menu added to cart successfully!')
         } catch (error) {
             toast.error(error)

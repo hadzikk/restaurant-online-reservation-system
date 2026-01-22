@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Menu } from '../types'
-import { MenuService } from '../api'
+import { MenuService } from '../services'
 
 export const useMenu = () => {
     const [menus, setMenus] = useState<Menu[]>([])
@@ -10,10 +10,11 @@ export const useMenu = () => {
     useEffect(() => {
         const fetchMenus = async () => {
           try {
-            const response = await MenuService.getAllMenus()
-            setMenus(response)
-          } catch (err) {
-            setError('Unexpected error')
+            const data = await MenuService.getAllMenus()
+            setMenus(data)
+            if (error) throw error
+          } catch (error) {
+            setError(error)
           } finally {
             setIsLoading(false)
           }
