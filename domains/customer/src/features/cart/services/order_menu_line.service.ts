@@ -19,22 +19,18 @@ const OrderMenuLineService = {
             throw error; // Re-throw after logging
         }
     },
-    async updateAndInsertMenuLine(order_id: number, menu_id: number, menu_price: number, quantity: number) {
-        const { data: createdMenuLine, error } = await supabase
+    async updateAndInsertMenuLine(order_id: number, menu_id: number, quantity: number, snapshot_price: number) {        
+        const { data, error } = await supabase
             .from('order_menu_lines')
-            .upsert({
+            .upsert({ 
                 order_id: order_id,
                 menu_id: menu_id,
-                snapshot_price: menu_price,
                 quantity: quantity,
-                updated_at: new Date().toISOString()
-            }, {
-                ignoreDuplicates: false,
-                onConflict: 'menu_id'
-            })
+                snapshot_price: snapshot_price
+             })
             .select()
         if (error) throw error
-        return createdMenuLine
+        return data
     },
     async updateMenuLine(id: number, quantity: number) {   
         const { data: updatedOrderedMenu, error } = await supabase

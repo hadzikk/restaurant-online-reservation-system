@@ -1,5 +1,4 @@
 import React, { type FC } from 'react'
-import type { OrderedMenu } from '../../types'
 import { OrderMenuItem } from '../../components'
 import styles from './OrderMenuList.module.css'
 import { useCart } from '../../hooks'

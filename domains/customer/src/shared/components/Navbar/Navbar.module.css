@@ -16,25 +16,6 @@
     gap: 20px;
 }
 
-.root .wrapper {
-    border-radius: 50px;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #F5F5F5;
-}
-
-.root .wrapper:hover {
-    border: 1px solid #CACACA;
-    cursor: pointer;
-}
-
-.root .wrapper:hover svg path {
-    fill: #000;
-}
-
 .root figure {
     width: 20px;
     height: 20px;
@@ -102,8 +83,13 @@
     font-size: small;
 }
 
+.root ul li .link:hover {
+    color: #0a0a0a;
+}
+
 .active {
     color: #000 !important;
+    font-weight: 500;
 }
 
 .p-4 {

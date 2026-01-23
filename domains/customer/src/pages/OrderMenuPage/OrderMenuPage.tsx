@@ -5,7 +5,6 @@ import styles from './OrderMenuPage.module.css'
 import { useMenu } from '../../features/menu/hooks/useMenu'
 
 const OrderMenuPage = () => {
-  // Logic is stored in custom hook
   const { isLoading, error } = useMenu()
 
   if (isLoading) {
@@ -21,6 +20,7 @@ const OrderMenuPage = () => {
       <>
         <Navbar />
         <main className={styles.root}>
+          {error}
           <Cart />
         </main>
       </>

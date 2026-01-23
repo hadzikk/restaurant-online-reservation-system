@@ -12,9 +12,8 @@ export const useMenu = () => {
           try {
             const data = await MenuService.getAllMenus()
             setMenus(data)
-            if (error) throw error
           } catch (error) {
-            setError(error)
+            setError(error instanceof Error ? error.message : 'An error occurred')
           } finally {
             setIsLoading(false)
           }

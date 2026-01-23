@@ -2,7 +2,7 @@ import type { Menu } from '../../menu/types'
 
 export type OrderMenuLine = {
     id: number
-    menu_id: Menu
+    menus: Menu
     quantity: number
     snapshot_price: number
 }

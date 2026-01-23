@@ -12,13 +12,13 @@ interface MenuItemsProps {
 }
 
 const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
-    const { orderMenuLines, addMenuLine } = useCart()
-    const isInCart = orderMenuLines.some(item => item.menu_id.id)
+    const { orderMenuLines, addMenuLineToCart } = useCart()
+    const isInCart = orderMenuLines.some(item => item.menu_id === menu.id)
 
     const handleAddMenu = async () => {
         if (isInCart) return
         try {
-            await addMenuLine(menu.id, menu.price, 1)
+            await addMenuLineToCart(menu.id, menu.price, 1)
             toast.success('Menu added to cart successfully!')
         } catch (error) {
             toast.error(error)
@@ -30,13 +30,13 @@ const MenuItem: FC<MenuItemsProps> = ({ menu }) => {
             <figure className={styles.imageContainer}>
                 <img
                     className={styles.image} 
-                    src={menu.menu_images[0].image_url} 
+                    src={menu.menu_images[0]?.image_url} 
                     alt="" 
                 />
             </figure>
             
             <div className={styles.textContainer}>
-                <h1 className={styles.name}>{menu.name}</h1>
+                <h1 title={menu.name} className={styles.name}>{truncateMiddle(menu.name, 7, 10)}</h1>
             </div>
 
             <p className={styles.price}>{formatToRupiah(menu.price)}</p>

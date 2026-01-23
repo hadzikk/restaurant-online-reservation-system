@@ -80,13 +80,18 @@ const useCart = () => {
             supabase.removeChannel(orderMenuLinesChannel)
         }
     }, [orderId])
-    
-    const addMenuLine = async (menu_id: number, menu_price: number, quantity: number) => {
+
+    // func update and insert menu line to cart
+    const addMenuLineToCart = async (menu_id: number, snapshot_price: number, quantity: number) => {
         try {
-            const addMenuLineAndUpdate = await OrderMenuLineService.updateAndInsertMenuLine(orderId, menu_id, menu_price, quantity)
-            if (!addMenuLineAndUpdate) throw error
+            await OrderMenuLineService.updateAndInsertMenuLine(
+                orderId,
+                menu_id,
+                quantity,
+                snapshot_price
+            )
         } catch (error) {
-            throw error
+            setError(error)
         }
     }
 
@@ -154,9 +159,9 @@ const useCart = () => {
         total,
         error,
         loading,
-        addMenuLine,
         removeMenuLine,
-        updateMenuLineQuantity
+        updateMenuLineQuantity,
+        addMenuLineToCart
     }
 }
 

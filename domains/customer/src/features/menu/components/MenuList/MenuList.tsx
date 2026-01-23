@@ -5,7 +5,8 @@ import { useMenu } from '../../hooks/useMenu'
 
 const MenuList = () => {
     const { menus } = useMenu()
-    
+    console.log(menus)
+
     return (
         <div className={styles.root}>
             {menus.map((menu) => (
