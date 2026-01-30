@@ -1,11 +1,9 @@
-import React, { type FC } from 'react'
 import { MenuItem } from '../../components'
 import styles from './MenuList.module.css'
 import { useMenu } from '../../hooks/useMenu'
 
 const MenuList = () => {
     const { menus } = useMenu()
-    console.log(menus)
 
     return (
         <div className={styles.root}>

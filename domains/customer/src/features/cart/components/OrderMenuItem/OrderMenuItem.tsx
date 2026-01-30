@@ -41,7 +41,7 @@ const OrderMenuItem: FC<Props> = ({ ordered_menu }) => {
     return (
         <li className={styles.root}>
             <div className={styles.food}>
-                <p className={styles.name}>{ordered_menu.menu_id.name}</p>
+                <p className={styles.name}>{ordered_menu.menus.name}</p>
                 <p className={styles.price}>{formatToRupiah(ordered_menu.snapshot_price)}</p>
                 <button className={styles.remove} onClick={handleRemoveMenuLine}>remove</button>
             </div>

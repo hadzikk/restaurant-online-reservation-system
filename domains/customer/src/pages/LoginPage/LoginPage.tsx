@@ -17,13 +17,13 @@ const LoginPage = () => {
     // page
     // 1. Create page for customer profile, so they can manage their account and se their histories
 
-    const { session, login } = useAuth()
+    const { session, signIn } = useAuth()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const [formData, setFormData] = useState({
-        email: '',
-        password: ''
+        email: null,
+        password: null
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ const LoginPage = () => {
                 return
             }
             
-            await login(formData)
+            await signIn(formData.email, formData.password)
             toast.success('Login successful!')
             navigate('/menu')
         } catch (err) {

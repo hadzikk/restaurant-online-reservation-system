@@ -17,7 +17,7 @@ export const GuestRoute = ({ children }: { children: Props }) => {
 export const ProtectedRoute = ({ children }: { children: Props }) => {
   const { session, loading } = useAuth()
 
-  if (loading) return null
+  if (loading) return <div>Loading...</div>
 
   if (!session) return <Navigate to="/login" replace />
 

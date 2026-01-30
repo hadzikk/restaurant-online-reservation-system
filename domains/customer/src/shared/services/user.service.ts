@@ -2,12 +2,20 @@ import { supabase } from '../api/supabase'
 import type { User } from '../types'
 
 export const UserService = {
-  async createUser(user: User) {
+  async createCustomer(id: string, email: string, full_name: string, birthday: Date, gender: string, phone: string) {
     const { data, error } = await supabase
       .from('users')
-      .insert([user])
+      .insert({
+        id: id,
+        email: email,
+        full_name: full_name,
+        birthday: birthday,
+        gender: gender,
+        phone: phone
+      })
       .select()
       .single()
+    
     if (error) throw error
     return data
   },

@@ -55,6 +55,16 @@ const OrderService = {
             .single()
         if (error) throw error
         return updatedOrderTotal
+    },
+    async createOrder(user_id: string) {
+        const { data: order, error } = await supabase
+        .from('orders')
+        .upsert([
+            { user_id: user_id },
+        ])
+        .select()     
+        if (error) throw error
+        return order
     }
 }
 

@@ -3,7 +3,7 @@ import toast from 'react-hot-toast'
 import styles from './Panel.module.css'
 
 const Panel = () => {
-    const { user, logout } = useAuth()
+    const { session, logout } = useAuth()
     const { isPanelOpen } = usePanel()
 
     const handleLogout = async (e) => {
@@ -20,7 +20,7 @@ const Panel = () => {
     return (
         <div className={styles.root}>
             <div className={styles.about}>
-                <p className={styles.email}>{user?.email}</p>
+                <p className={styles.email}>{session?.user.email}</p>
             </div>
             <a href="" className={styles.action}>
                 settings

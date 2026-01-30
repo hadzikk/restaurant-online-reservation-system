@@ -5,7 +5,10 @@ const OrderMenuLineService = {
         try {
             const { data: orderMenuLines, error } = await supabase
                 .from('order_menu_lines')
-                .select('*')
+                .select(`
+                    *,
+                    menus(*)
+                `)
                 .eq('order_id', order_id)
                 .order('created_at');
             

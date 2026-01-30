@@ -5,6 +5,11 @@
     align-items: center;
 }
 
+.name {
+    font-size: small;
+    font-weight: 700;
+}
+
 .price {
     font-size: small;
     font-weight: 500;
@@ -22,6 +27,13 @@
 
 .remove:hover {
     font-weight: 700;
+}
+
+.buttons {
+    min-width: fit-content;
+    display: flex;
+    align-items: end;
+    flex-direction: column;
 }
 
 .control {
