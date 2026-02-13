@@ -1,0 +1,1 @@
+export { default as MenuService } from './table.service'
