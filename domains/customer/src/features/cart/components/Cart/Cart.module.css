@@ -118,3 +118,11 @@
     margin: 0 0 5px 0;
     cursor: pointer;
 }
+
+@media (max-width: 576px) {
+  .cart {
+    width: 100vw;
+    padding: 0 50px;
+    background-color: #FFFFFF;
+  }
+}

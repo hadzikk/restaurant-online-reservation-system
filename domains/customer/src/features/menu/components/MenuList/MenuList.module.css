@@ -4,3 +4,9 @@
     gap: 10px;
     flex-wrap: wrap;
 }
+
+@media (max-width: 576px) {
+  .root {
+    justify-content: center;
+  }
+}
