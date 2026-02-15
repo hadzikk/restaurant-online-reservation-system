@@ -134,24 +134,6 @@ const useCart = () => {
         }
     }, [order[0]?.id, total, loading])
 
-    useEffect(() => {
-    // Memastikan state orderMenuLines selalu dalam sinkronisasi
-    // dengan data terbaru dari database
-    if (orderId) {
-        const fetchOrderMenuLine = async () => {
-            try {
-                const orderMenuLine = await OrderMenuLineService.getOrderMenuLinesById(orderId)
-                if (orderMenuLine) {
-                    setOrderMenuLines(orderMenuLine)
-                }
-            } catch (error) {
-                console.error('Error fetching order menu lines:', error)
-            }
-        }
-        fetchOrderMenuLine()
-    }
-}, [orderMenuLines, orderId])
-
     return {
         order,
         orderedTables,

@@ -3,7 +3,9 @@ import { useTable } from '../../hooks/useTable'
 import styles from './FloorPlan.module.css'
 
 const FloorPlan = () => {
-    const { tables, isLoading, error } = useTable()
+    const { tables, details, isLoading, error } = useTable()
+
+    console.log(details)
     
     if (isLoading) return <div>Loading tables...</div>
     if (error) return <div>Error loading tables: {error}</div>
@@ -12,7 +14,7 @@ const FloorPlan = () => {
         <div className={styles.root}>
             {tables.map((table) => (
                 <Table
-                    key={table.name}
+                    key={table.id}
                     table={table}
                 />
             ))}

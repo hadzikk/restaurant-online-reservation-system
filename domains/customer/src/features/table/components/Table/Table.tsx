@@ -1,13 +1,13 @@
 import type { FC } from 'react'
-import type { Table as TableTypes } from '../../types'
+import type { Tables as TablesTypes } from '../../types'
 import styles from './Table.module.css'
 
 interface TableProps {
-  table: TableTypes
+  table: TablesTypes
+  onClick?: () => void
 }
 
-const Table: FC<TableProps> = ({ table }) => {
-
+const Table: FC<TableProps> = ({ table, onClick }) => {
   return (
     <div 
       className={styles.root}
@@ -17,6 +17,7 @@ const Table: FC<TableProps> = ({ table }) => {
         top: table.top,
         left: table.left,
       }}
+      onClick={onClick}
     >
       <p className={styles.name}>{table.name}</p>
     </div>

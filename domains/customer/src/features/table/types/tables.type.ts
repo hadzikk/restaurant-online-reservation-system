@@ -1,4 +1,4 @@
-import type { TableDetails } from '../types'
+import type { TableDetails } from './table_details.type'
 
 export interface Tables {
     name: string
@@ -6,4 +6,5 @@ export interface Tables {
     height?: number
     top?: number
     left?: number
+    table_details?: TableDetails[]
 }

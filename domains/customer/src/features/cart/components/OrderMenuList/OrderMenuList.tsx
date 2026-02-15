@@ -5,7 +5,6 @@ import { useCart } from '../../hooks'
 
 const OrderMenuList = () => {
     const { orderMenuLines } = useCart()
-    console.log(orderMenuLines)
 
     return (
         <div className={styles.root}>
