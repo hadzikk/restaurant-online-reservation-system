@@ -1,4 +1,6 @@
-export interface Table {
+import type { TableDetails } from '../types'
+
+export interface Tables {
     name: string
     width?: number
     height?: number

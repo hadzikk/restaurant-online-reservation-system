@@ -6,3 +6,7 @@
     box-sizing: border-box;
     font-family: var(--font-satoshi);
 }
+
+body {
+    background-color: #F5F5F5;
+}

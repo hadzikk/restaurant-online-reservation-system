@@ -1,1 +1,6 @@
-export * from './table.type'
+export * from './tables.type'
+export * from './table_details.type'
+export * from './table_features.type'
+export * from './table_images.type'
+export * from './table_locations.type'
+export * from './table_sizes.type'

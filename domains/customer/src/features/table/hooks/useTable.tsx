@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import type { Table } from '../types'
+import type { Tables } from '../types'
 import TableService from '../services/table.service'
 
 export const useTable = () => {
-  const [tables, setTables] = useState<Table[]>([])
+  const [tables, setTables] = useState<Tables[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
