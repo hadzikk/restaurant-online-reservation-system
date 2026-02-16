@@ -8,7 +8,7 @@
 
 .figure {
     width: 100%;
-    height: 70%;
+    height: 40%;
     margin: 0;
     overflow: hidden;
     flex-shrink: 0;
@@ -20,24 +20,38 @@
     object-fit: cover;
 }
 
-.content {
+.container {
     width: 100%;
-    height: 30%;
+    height: 60%;
     overflow-y: auto;
     flex-shrink: 0;
+    padding: 10px 20px;
 }
 
-.about {
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.code {
+    font-size: small;
+}
+
+.detail::-webkit-scrollbar {
+    display: none;
+}
+
+.content p {
+    font-size: small;
+    line-height: 1.5;
+    padding: 0 0 1em 0;
+}
+
+.general {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.25rem 0 0;
-}
-
-.label {
-    padding: 1em 1.25rem 0 1.25rem;
-    font-size: small;
-    text-transform: uppercase;
+    height: fit-content;
+    margin: 0 0 20px 0;
 }
 
 .detail {
@@ -46,12 +60,6 @@
 
 .detail[open] .arrow {
     transform: rotate(180deg);
-}
-
-
-.code {
-    padding: 0 1.25rem 1em 1.25rem;
-    font-weight: 700;
 }
 
 .status {
@@ -66,7 +74,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5em 1.25rem;
     cursor: pointer;
     font-weight: 600;
     list-style: none;
@@ -78,10 +85,14 @@
 
 .table {
     padding: 0;
-    margin: 0 0 1em 0;
     width: 100%;
     border: none;
     font-size: small;
+}
+
+.table th {
+    width: 100%;
+    text-align: left;
 }
 
 .table tr {
@@ -108,25 +119,6 @@
 
 .arrow {
     transition: transform 0.2s;
-}
-
-.content {
-    padding: 0 1.25rem;
-    background-color: white;
-}
-
-.content p {
-    font-size: small;
-    line-height: 1.5;
-    padding: 0 0 1em 0;
-}
-
-.content p:first-child {
-    margin-top: 0;
-}
-
-.content p:last-child {
-    margin-bottom: 0;
 }
 
 @media (max-width: 576px) {

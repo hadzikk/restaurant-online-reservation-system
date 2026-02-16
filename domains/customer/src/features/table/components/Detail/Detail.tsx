@@ -1,24 +1,34 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import styles from './Detail.module.css'
+import { useTableDetails } from '../../hooks/useDetail'
 
-const Detail = () =>  {
+interface DetailProps {
+    tableId: number | null
+}
+
+const Detail = ({ tableId }: DetailProps) =>  {
+    const { details, isLoading, error } = useTableDetails(tableId)
+
+    if (isLoading) return <div>Loading table details...</div>
+    if (error) return <div>Error loading details: {error}</div>
+    if (!details) return <div>No table selected</div>
+
     return (
         <div className={styles.root}>
             <figure className={styles.figure}>
                 <img
                     className={styles.image}  
-                    src='https://cdn.cosmos.so/a6d966bc-7eaa-4068-b79d-7cfe65db74e3?format=jpeg' 
+                    src={details.table_images[0].image_url} 
                     alt=''  
                 />
             </figure>
-            <div className={styles.content}>
+            <div className={styles.container}>
                 <div className={styles.about}>
                     <div className={styles.general}>
-                        <p className={styles.label}>table</p>
-                        <p className={styles.code}>T-001</p>
+                        <span className={styles.code}>{details.tables.name}</span>
+                        <span className={styles.status}>available</span>
                     </div>
-                    <span className={styles.status}>available</span>
                 </div>
                 <details className={styles.detail}>
                     <summary className={styles.summary}>
@@ -30,7 +40,7 @@ const Detail = () =>  {
                         </span>
                     </summary>
                     <div className={styles.content}>
-                        <p>lorem ipsum dolor sit amet adispiscing elit.</p>
+                        <span>{'description'}</span>
                     </div>
                 </details>
                 <details className={styles.detail}>
@@ -53,15 +63,15 @@ const Detail = () =>  {
                             <tbody>
                                 <tr>
                                     <td>Size</td>
-                                    <td>small</td>
+                                    <td>{details.table_sizes.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Capacity</td>
-                                    <td>2</td>
+                                    <td>{details.capacity}</td>
                                 </tr>
                                 <tr>
                                     <td>Place</td>
-                                    <td>indoor</td>
+                                    <td>{details.table_locations.name}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -80,15 +90,23 @@ const Detail = () =>  {
                         <table className={styles.table}>
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Feature</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Plug</td>
-                                    <td>2</td>
-                                </tr>
+                                {details.table_features?.length > 0 ? (
+                                    details.table_features.map((feature) => (
+                                        <tr key={feature.id}>
+                                            <td>{feature.name}</td>
+                                            <td>{feature.description}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={2}>No features available</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>

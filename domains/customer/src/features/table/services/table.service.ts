@@ -6,21 +6,31 @@ const TableService = {
             .from('tables')
             .select(`
                 *,
-                table_details(*)
+                table_details(
+                    *,
+                    tables!table_details_table_id_fkey(*),
+                    table_locations!table_details_location_id_fkey(*),
+                    table_sizes!table_details_size_id_fkey(*),
+                    table_features(*),
+                    table_images(*)
+                )
             `)
         if (error) throw new Error(error.message)
         return data || []
     },
-    async getTableDetails(id: number) {
+    async getTableById(id: number) {
         let { data, error } = await supabase
-            .from('table_details')
+            .from('tables')
             .select(`
                 *,
-                tables!table_details_table_id_fkey(*),
-                table_locations!table_details_location_id_fkey(*),
-                table_sizes!table_details_size_id_fkey(*),
-                table_features(*),
-                table_images(*)
+                table_details(
+                    *,
+                    tables!table_details_table_id_fkey(*),
+                    table_locations!table_details_location_id_fkey(*),
+                    table_sizes!table_details_size_id_fkey(*),
+                    table_features(*),
+                    table_images(*)
+                )
             `)
             .eq('id', id)
         if (error) throw new Error(error.message)

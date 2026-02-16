@@ -2,12 +2,19 @@ import { Table } from '../../components'
 import { useTable } from '../../hooks/useTable'
 import styles from './FloorPlan.module.css'
 
-const FloorPlan = () => {
-    const { tables, details, isLoading, error } = useTable()
+interface FloorPlanProps {
+    selectedTableId: number | null
+    onTableSelect: (id: number) => void
+}
 
-    console.log(details)
-    
-    if (isLoading) return <div>Loading tables...</div>
+const FloorPlan = ({ selectedTableId, onTableSelect }: FloorPlanProps) => {
+    const { tables, isLoading, error } = useTable()
+
+    if (isLoading) return (
+        <div className={styles.root}>
+            <div>Loading tables...</div>
+        </div>
+    )
     if (error) return <div>Error loading tables: {error}</div>
     
     return (
@@ -16,6 +23,8 @@ const FloorPlan = () => {
                 <Table
                     key={table.id}
                     table={table}
+                    onClick={onTableSelect}
+                    isSelected={selectedTableId === table.id}
                 />
             ))}
         </div>
