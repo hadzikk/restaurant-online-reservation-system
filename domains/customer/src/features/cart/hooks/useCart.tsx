@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import type { Order, OrderMenuLine, OrderTableLine } from '../types'
 import { supabase } from '../../../shared/api/supabase'
-import { OrderMenuLineService, OrderService } from '../services'
+import { OrderMenuLineService, OrderService, OrderTableLineService } from '../services'
 import { useAuth } from '../../../shared/hooks'
+import toast from 'react-hot-toast'
 
 const useCart = () => {
     const [order, setOrder] = useState<Order[]>([])
@@ -81,6 +82,44 @@ const useCart = () => {
         }
     }, [orderId])
 
+    // order table line
+    useEffect(() => {
+        if (!orderId) return
+        const fetchOrderTableLines = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('order_table_lines')
+                    .select('*')
+                    .eq('order_id', orderId)
+                
+                if (error) throw error
+                setOrderedTables(data || [])
+            } catch (error) {
+                console.error('Error fetching order table lines:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchOrderTableLines()
+        const orderTableLinesChannel = supabase
+            .channel('order-table-lines')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'order_table_lines',
+                },
+                () => {
+                    fetchOrderTableLines().catch(console.error)
+                }
+            )
+            .subscribe()
+        return () => {
+            supabase.removeChannel(orderTableLinesChannel)
+        }
+    }, [orderId])
+
     // func update and insert menu line to cart
     const addMenuLineToCart = async (menu_id: number, snapshot_price: number, quantity: number) => {
         try {
@@ -115,6 +154,18 @@ const useCart = () => {
         }
     }
 
+    // func to remove table reservation
+    const removeTableReservation = async (id: number) => {
+        try {
+            await OrderTableLineService.deleteOrderTableLine(id)
+            setOrderedTables(prev => prev.filter(item => item.id !== id))
+            toast.success('Table reservation removed')
+        } catch (error) {
+            toast.error('Failed to remove table reservation')
+            console.error('Error removing table reservation:', error)
+        }
+    }
+
     // increasing performance by memoize calculation of total
     const total = useMemo(() => {
         return orderMenuLines.reduce((sum, item) => {
@@ -143,7 +194,8 @@ const useCart = () => {
         loading,
         removeMenuLine,
         updateMenuLineQuantity,
-        addMenuLineToCart
+        addMenuLineToCart,
+        removeTableReservation
     }
 }
 

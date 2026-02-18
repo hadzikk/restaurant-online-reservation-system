@@ -70,6 +70,21 @@
     color: limegreen;
 }
 
+.status.available {
+    border-color: #10b981;
+    color: #10b981;
+}
+
+.status.notAvailable {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.status.checking {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
 .summary {
     display: flex;
     justify-content: space-between;
@@ -121,9 +136,146 @@
     transition: transform 0.2s;
 }
 
+/* Reservation Form Styles */
+.reservation {
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.reservationTitle {
+    margin: 0 0 16px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reservationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.input, .select {
+    padding: 10px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    background: white;
+    color: #1a1a1a;
+}
+
+.input:focus, .select:focus {
+    outline: none;
+    border-color: #1a1a1a;
+}
+
+.reserveButton {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+
+.reserveButton:hover:not(:disabled) {
+    background: #2a2a2a;
+    transform: translateY(-1px);
+}
+
+.reserveButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #6b7280;
+}
+
+.availabilityNote {
+    margin: 0 0 12px 0;
+    padding: 8px 12px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #92400e;
+}
+
+.availabilityNoteAvailable {
+    margin: 0 0 12px 0;
+    padding: 8px 12px;
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #065f46;
+}
+
+.notAvailableMessage {
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    background: #fef2f2;
+    border-radius: 8px;
+}
+
+.notAvailableTitle {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notAvailableText {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    color: #7f1d1d;
+    line-height: 1.5;
+}
+
+.notAvailableSubtext {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #991b1b;
+    line-height: 1.4;
+}
+
 @media (max-width: 576px) {
   .root {
     width: 100%;
     border: none;
+  }
+  
+  .reservationForm {
+    gap: 12px;
+  }
+  
+  .input, .select {
+    padding: 8px 10px;
   }
 }
